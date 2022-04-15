@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>lwapic__Request_Paylaod__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Request Paylaod - User input as JSON</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please provide the data in the following format:
+TEXT            - This is a sample text. Company website is {!Site}. Please contact {0} for assistance
+KEY-VALUE  - Key={!Name},Key Two=Michael
+JSON            - {&quot;Key&quot;:&quot;{!Name}&quot;,&quot;Key Two&quot;:&quot;Michael&quot;}
+XML              - &lt;Key&gt; Ceptes &lt;/Key&gt; &lt;Key Two&gt; Software &lt;Key Two&gt;</inlineHelpText>
+    <label>Request Payload</label>
+    <length>131072</length>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>10</visibleLines>
+</CustomField>

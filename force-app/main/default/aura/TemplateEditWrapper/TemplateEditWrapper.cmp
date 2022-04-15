@@ -1,0 +1,4 @@
+<aura:component implements="force:hasRecordId,lightning:actionOverride" access="global" >
+    <aura:attribute name="recordId" type="String" />
+	<c:templateEditor templateId="{!v.recordId}" isRecordEdit="true"></c:templateEditor>
+</aura:component>

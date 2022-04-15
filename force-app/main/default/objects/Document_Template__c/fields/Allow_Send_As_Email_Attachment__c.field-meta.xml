@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Allow_Send_As_Email_Attachment__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This is to allow configuration for sending the documents generated from template to the records as email attachment.</description>
+    <externalId>false</externalId>
+    <label>Allow Send As Email Attachment</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

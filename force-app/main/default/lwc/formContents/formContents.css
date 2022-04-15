@@ -1,0 +1,12 @@
+.slds-modal__container {
+    max-width: 70rem !important;
+    width: 70% !important;
+}
+.fields-section {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.content-section {
+    border-right: 1px solid grey;
+    padding-right: 30px;
+}

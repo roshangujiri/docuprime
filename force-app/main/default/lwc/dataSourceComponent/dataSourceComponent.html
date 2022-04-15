@@ -1,0 +1,70 @@
+<template>
+
+    <div if:true={showSpinner} class="loader">
+        <div class="slds-spinner_container slds-is-fixed">
+            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                <span class="slds-assistive-text">Laoding</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-card" style="background-color: lightsteelblue; min-height:100%">
+        <div class="slds-card__body slds-card__body_inner">
+
+            <template if:true={hasRender}>
+                <c-data-source-header onpreview={PreviewDocument} document-template-id={documentTemplateId}
+                    updated-list={arrayList} external-template-id={externalTemplateId} json-data={data}
+                    onsavealldatasources={SaveAllDataSoources} onrenderreport={renderReportFile}>
+                </c-data-source-header>
+                <lightning-layout pull-to-boundary="medium" vertical-align="stretch" multiple-rows="true"
+                    onactionclick={handleSectionActionClick}>
+                    <lightning-layout-item padding="horizontal-medium" size={dsSectionSize}>
+                        <c-data-source-section array-list={arrayList} document-template-id={documentTemplateId}
+                            onactionkeyindex={handleEditDataSources} onclosesection={HandleCloseSection}
+                            div-class={divClass} is-open-side-bar={isOpenSideBar} is-install-lwapic={isInstallLwapic}
+                            article-area-hidden={articleAreaHidden} icon-name={iconName} ondraglist={dragList}>
+                        </c-data-source-section>
+                    </lightning-layout-item>
+                    <template if:true={showSecondSection}>
+                        <lightning-layout-item padding="horizontal-medium" size={dsSourceListSize}>
+                            <c-data-source-list onselecteddatasource={handleSelectedSource} object-name={objectName}
+                                onselectclose={handleCloseSourceTypeSection}>
+                            </c-data-source-list>
+                        </lightning-layout-item>
+                    </template>
+                    <template if:false={showSecondSection}>
+                        <template if:false={isPreview}>
+                            <lightning-layout-item padding="horizontal-medium" size={dsBodySize}>
+                                <c-data-source-body source-type={sourceType} array-list={arrayList}
+                                    onsavedatasourcearray={SaveDataSource} ononchnagedata={HandleOnChangeData}
+                                    ondeletedatasource={HandleDeleteSource} document-template-id={documentTemplateId}
+                                    container-class={dsBodyDivClass} object-name={objectName}>
+                                </c-data-source-body>
+                            </lightning-layout-item>
+                        </template>
+                    </template>
+                    <template if:true={isPreview}>
+                        <lightning-layout-item padding="horizontal-medium" size={dsJsonEditorSize}>
+                            <div class={jsonEditorLayoutClass}>
+                                <c-rich-text-editor json-editor-data={jsonEditorData}
+                                    container-class={jsonEditiorContainer} onupdatedjson={getUpdatedJsonForRender}>
+                                </c-rich-text-editor>
+                            </div>
+                        </lightning-layout-item>
+                        <template if:true={renderTemplate}>
+                            <lightning-layout-item padding="horizontal-medium" size={dsIframeSize}>
+                                <div class={iframeLayoutClass}>
+                                    <c-i-frame-component external-template-id={externalTemplateId} json-data={data}
+                                        is-install-lwapic={isInstallLwapic}>
+                                    </c-i-frame-component>
+                                </div>
+                            </lightning-layout-item>
+                        </template>
+                    </template>
+                </lightning-layout>
+            </template>
+        </div>
+    </div>
+
+</template>

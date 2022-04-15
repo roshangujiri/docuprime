@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>lwapic__Mapping__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Provide the mapping for the response body.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Response Data Mapper. Use JSON Path,  formulas, merge fields as needed.</inlineHelpText>
+    <label>Response Data Mapper</label>
+    <length>131072</length>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>10</visibleLines>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Use_Page_Session__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Enabling this option means get the session information from VF Page</description>
+    <externalId>false</externalId>
+    <label>Use Page Session</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,71 @@
+<template>
+    <template if:true={isSelectText}>
+        <lightning-input type={cellData.type} 
+                name={cellData.name} 
+                label={cellData.name}
+                value={cellData.value} 
+                style="min-width:80px"
+                onchange={handleDataChange}>
+        </lightning-input>
+    </template>
+
+    <template if:true={isSelectDate}>
+        <lightning-input type="date" 
+            name={cellData.name} 
+            label={cellData.name} 
+            style="min-width:80px"
+            onchange={handleDataChange}>
+        </lightning-input>
+    </template>
+
+    <template if:true={isSelectTextarea}>
+        <lightning-textarea
+            name={cellData.name} 
+            label={cellData.name}
+            value={cellData.value} 
+            style="min-width:80px"
+            onchange={handleDataChange}>
+        </lightning-textarea>
+    </template>
+
+    <template if:true={isSelectNumber}>
+        <lightning-input type={cellData.type} 
+                name={cellData.name} 
+                label={cellData.name} 
+                value={cellData.value} 
+                style="min-width:80px"
+                step="0.01"
+                onchange={handleDataChange}>
+        </lightning-input>
+    </template>
+    <template if:true={isSelectTelephone}>
+        <lightning-input type={cellData.type} 
+                name={cellData.name} 
+                label={cellData.name} 
+                value={cellData.value} 
+                style="min-width:80px"
+                step="0.01"
+                onchange={handleDataChange}>
+        </lightning-input>
+    </template>
+    <template if:true={isSelectBoolean}>
+        <lightning-input type={cellData.type} 
+                name={cellData.name} 
+                label={cellData.name}
+                value={cellData.value} 
+                onchange={handleDataChange}>
+        </lightning-input>
+    </template>
+    <template if:true={isSelectPicklist}>
+        <template if:true={options}>
+            <lightning-combobox 
+                name={cellData.name} 
+                label={cellData.name}
+                placeholder="-- Select --"
+                options={options}
+                value={cellData.value} 
+                onchange={handleDataChange}>
+            </lightning-combobox>
+        </template>
+    </template>
+</template>

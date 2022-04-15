@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>lwapic__Query_Params__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Query Params - comma separated user input</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please provide the data in any of the following format. This will be reconciled and sent as request param.
+KEY-VALUE - Key1={!Name}&amp;
+Key2=Michael&amp;
+Key3={!$User.Name}&amp;
+Key4={!$Organization.Name}&amp;
+Key5={!$Setup.api_custom_setting__c.username__c}&amp;
+Key6={0}&amp;
+key7={!$CustomMetadata.Support_Tier__mdt.Bronze.field__c}
+
+Please note - Only &apos;&amp;&apos; should be used as a data separator</inlineHelpText>
+    <label>Query Params</label>
+    <length>31072</length>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>10</visibleLines>
+</CustomField>

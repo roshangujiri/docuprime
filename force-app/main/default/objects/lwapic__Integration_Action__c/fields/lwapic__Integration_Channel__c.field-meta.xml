@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>lwapic__Integration_Channel__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <inlineHelpText>Parent Integration Channel</inlineHelpText>
+    <label>Parent Integration Channel</label>
+    <referenceTo>lwapic__Integration_Channel__c</referenceTo>
+    <relationshipLabel>Integration Actions</relationshipLabel>
+    <relationshipName>Integration_Actions</relationshipName>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

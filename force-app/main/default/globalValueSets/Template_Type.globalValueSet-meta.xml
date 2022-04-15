@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Client Documents</fullName>
+        <default>false</default>
+        <label>Client Documents</label>
+    </customValue>
+    <customValue>
+        <fullName>Employee Documents</fullName>
+        <default>false</default>
+        <label>Employee Documents</label>
+    </customValue>
+    <customValue>
+        <fullName>HR Documents</fullName>
+        <default>false</default>
+        <label>HR Documents</label>
+    </customValue>
+    <customValue>
+        <fullName>Internal Documents</fullName>
+        <default>false</default>
+        <label>Internal Documents</label>
+    </customValue>
+    <description>Represents category of document template in the system.</description>
+    <masterLabel>Template Type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

@@ -1,0 +1,20 @@
+/* .buttonGroup {
+  float: right;
+  margin-top: -24px;
+} */
+
+.header {
+  margin-left: -11px;
+  height: 69px;
+  margin-right: -11px;
+  margin-top: -8px;
+}
+.headerSection {
+  margin-top: 9px;
+}
+:host {
+    --sds-c-textarea-sizing-min-height: 200px;
+}
+.childFieldWidth{
+    width: 100%;
+}

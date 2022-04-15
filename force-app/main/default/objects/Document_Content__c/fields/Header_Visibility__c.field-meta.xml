@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Header_Visibility__c</fullName>
+    <description>To Display the Header in which all pages</description>
+    <externalId>false</externalId>
+    <label>Header Visibility</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>First Page Only</fullName>
+                <default>false</default>
+                <label>First Page Only</label>
+            </value>
+            <value>
+                <fullName>First And Last Page</fullName>
+                <default>false</default>
+                <label>First And Last Page</label>
+            </value>
+            <value>
+                <fullName>All The Pages</fullName>
+                <default>false</default>
+                <label>All The Pages</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

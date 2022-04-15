@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>lwapic__Handler_Name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Please provide the name of the action handler. E.g. Notification__e,Account etc. Provide Attachment or ContentVersion for File Type.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Provide Action Handler Name. Based on action types. For the class - provide apex class name, for objects - provide object name.</inlineHelpText>
+    <label>Action Handler</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

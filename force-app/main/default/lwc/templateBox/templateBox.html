@@ -1,0 +1,42 @@
+<template>
+    <div class={mainGrid}>
+        <template for:each={templateData} for:item="tempData">
+            <template if:true={tempData.name} key={tempData.Name}>
+                <div key={tempData.Name}
+                    class="slds-m-right_x-small slds-m-bottom_x-small slds-box--border slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-left--small slds-p-bottom--small"
+                    style="width: 48%">
+                    <article class="slds-card slds-color__background_gray-3">
+                        <p
+                            class="slds-p-horizontal_small slds-p-top_small slds-align--absolute-center slds-p-horizontal_small">
+                            {tempData.name}
+
+                        </p>
+                        <div class="slds-card__footer slds-color__background_gray-1">
+                            <p slot="footer">
+                                <lightning-button variant="brand" class="slds-button" label="Open Document"
+                                    data-id={tempData.id} onclick={handleOpenDraft}
+                                    disabled={tempData.isCorpDocListEmpty}>
+                                </lightning-button>
+                                <lightning-button variant="brand" class="slds-button" data-id={tempData.id}
+                                    onclick={handleCreateNew} label="Generate Document"
+                                    disabled={tempData.isSectionListEmpty}>
+                                </lightning-button>
+                            </p>
+                        </div>
+                    </article>
+                    <c-form-contents key={tempData.Name} class="form-contents" record-id={recordId}
+                        oncontentsave={handleContentSave}>
+                    </c-form-contents>
+                    <c-draft-content key={tempData.Name} class="draft-content" record-id={recordId}
+                        oncontentdelete={handleContentDelete} template-id={tempData.id}>
+                    </c-draft-content>
+                </div>
+            </template>
+            <template if:false={tempData.name} key={tempData.Name}>
+                <lightning-card key={tempData.Name} class="custom-card slds-align_absolute-center slds-p-around_medium">
+                    <c-placeholder message="No data available."></c-placeholder>
+                </lightning-card>
+            </template>
+        </template>
+    </div>
+</template>

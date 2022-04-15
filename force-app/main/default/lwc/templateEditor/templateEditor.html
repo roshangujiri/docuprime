@@ -1,0 +1,1138 @@
+<template>
+    <div class="app slds-p-around_x-large">
+        <template if:true={templateData.isReadOnly}>
+            <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert">
+                <span class="slds-assistive-text">warning</span>
+                <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small"
+                    title="Description of icon when needed">
+                    <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+                    </svg>
+                </span>
+                <h2>This template cannot be edited as this is inactive due to versioning.
+                </h2>
+                <div class="slds-notify__close">
+                    <button class="slds-button slds-button_icon slds-button_icon-small" title="Close">
+                        <svg class="slds-button__icon" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </div>
+            </div>
+        </template>
+        <div class="slds-m-bottom_medium">
+            <lightning-icon class="slds-show_inline-block slds-m-right_small" icon-name={iconName}
+                alternative-text={iconTitle} title={iconTitle} size="xx-small">
+            </lightning-icon>
+            <h1 class="slds-text-heading_medium slds-hyphenate slds-show_inline-block">{templateData.name}</h1>
+            <h6 class="slds-m-left_small slds-show_inline-block">[{operation}]</h6>
+            <div class="slds-float_right">
+                <template if:true={isRecordEdit}>
+                    <template if:false={templateData.isReadOnly}>
+                        <button class="slds-button slds-button_icon slds-m-right_small" title="Generate Section"
+                            onclick={generateSection}>
+                            <lightning-icon icon-name="utility:record_create" alternative-text="Generate Section"
+                                size="small">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Generate Section</span>
+                        </button>
+                        <template if:true={isSectionSaved}>
+                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                                <div class="slds-modal__container">
+                                    <header class="slds-modal__header">
+                                        <button
+                                            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                            title="Close this window" onclick={cancelGenerate}>
+                                            <lightning-icon icon-name="utility:close" alternative-text="Cancel"
+                                                variant="inverse" size="small">
+                                            </lightning-icon>
+                                            <span class="slds-assistive-text">Close this window</span>
+                                        </button>
+                                        <h2 class="slds-text-heading_medium slds-hyphenate">Generate Section</h2>
+                                    </header>
+                                    <div class="slds-modal__content slds-p-around_medium">
+                                        <div class="slds-grid slds-wrap slds-is-relative">
+                                            <p
+                                                class="slds-text-heading_small slds-hyphenate slds-align_absolute-center">
+                                                Do you want to Generate Section ?
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <footer class="slds-modal__footer">
+                                        <button class="slds-button slds-button_neutral"
+                                            onclick={closeGenerate}>No</button>
+                                        <button class="slds-button slds-button_brand"
+                                            onclick={handleGenerate}>Yes</button>
+                                    </footer>
+                                </div>
+                            </section>
+                            <div class="slds-backdrop slds-backdrop_open"></div>
+                        </template>
+                    </template>
+                </template>
+                <button class="slds-button slds-button_icon slds-m-right_small" title="Show Template Section"
+                    onclick={handleShowSection}>
+                    <lightning-icon data-id='showSection' icon-name={showSectionClass} alternative-text="Show Section"
+                        size="small">
+                        <!-- <lightning-icon data-id='showSection' icon-name="utility:toggle" alternative-text="Show Section"
+                    size="small"> -->
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Show Section</span>
+                </button>
+                <lightning-button-icon data-id='previewbutton' icon-name="utility:preview" title="Standard Preview"
+                    onclick={handlePreviewExpanCollapse} class="slds-m-right_small"></lightning-button-icon>
+                <template if:false={templateData.isReadOnly}>
+                    <button class="slds-button slds-button_icon slds-m-right_small" title="Quick Save"
+                        onclick={handleSave}>
+                        <lightning-icon class="custom-color-blue" icon-name="utility:save" alternative-text="Save"
+                            size="small">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Save</span>
+                    </button>
+                </template>
+                <button class="slds-button slds-button_icon" title="Close" onclick={handleClose}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" size="small">
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+
+                &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                <c-form-contents class="form-contents " record-id={recordIdData} object-api-name={recordIdObjectName}
+                    is-preview=true>
+                </c-form-contents>
+
+
+                <div class="slds-button slds-button_icon">
+
+                    <lightning-input style="margin-top:-10px" onchange={handlerecordIdData} type="text" label=""
+                        placeholder="Type Record ID here...">
+                        {recordIdData}
+                    </lightning-input>
+                </div>
+
+                <button class="slds-button slds-button_icon  slds-m-right_small" title="Live Preview"
+                    onclick={openPreviewModal}>
+
+
+                    <lightning-icon class="custom-color-blue" icon-name="action:preview" alternative-text="Preview"
+                        size="small">
+
+                    </lightning-icon>
+
+                    <span class="slds-assistive-text">Live Preview</span>
+
+                </button>
+
+            </div>
+        </div>
+
+        <div class="slds-grid slds-wrap slds-is-relative" style="min-height: 60vh;margin-bottom: -20px;">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </template>
+            <div data-id="templateblock" class="slds-scrollable_y slds-size--12-of-12" style="height: 75vh;">
+                <div class="slds-box slds-theme_shade" style="padding: 1.5%;">
+                    <Strong>Document Template</Strong>
+                </div>
+                <fieldset class="slds-form-element slds-form-element_compound">
+                    <div class="slds-form-element__control slds-m-top_small slds-m-bottom_large">
+                        <div class="slds-form-element__row slds-wrap">
+                            <div class="slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <lightning-input type="text" label="Template Name" value={templateData.name}
+                                        onchange={handleTemplateNameChange} maxlength="80" required
+                                        disabled={disabledObjNTem}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <lightning-combobox label="Department" placeholder="--None--"
+                                        options={templateDepartmentOptions} value={templateData.department}
+                                        onchange={handleTemplateDepartmentChange}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+
+                            <div class="slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <lightning-combobox label="Template Category" placeholder="--None--"
+                                        options={templateTypeOptions} value={templateData.type}
+                                        onchange={handleTemplateTypeChange} required>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <lightning-input type="text" label="Template Version" value={templateData.version}
+                                        onchange={handleTemplateVersionChange} disabled>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-2 slds-m-vertical_xx-small">
+                                <div class="slds-form-element">
+                                    <lightning-input type="checkbox" label="Allow Attach As PDF To Record"
+                                        checked={templateData.allowAttachAsPDF} onchange={handleAllowAttachAsPDFChange}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-2 slds-m-vertical_xx-small">
+                                <div class="slds-form-element">
+                                    <lightning-input type="checkbox" label="Allow Send As Email Attachment"
+                                        checked={templateData.allowSendAsEmailAttachment}
+                                        onchange={handleAllowSendAsEmailAttachmentChange}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-2 slds-m-vertical_xx-small">
+                                <div class="slds-form-element">
+                                    <lightning-input type="checkbox" label="Allow Electronic Signature"
+                                        checked={templateData.allowEsign} onchange={handleAllowEsignChange}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-2 slds-m-vertical_xx-small">
+                                <div class="slds-form-element">
+                                    <lightning-input type="checkbox" label="Is Active" checked={templateData.isActive}
+                                        onchange={handleIsActiveChange}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-2 slds-m-vertical_xx-small"></div>
+                            <div class="slds-size_1-of-2 slds-m-vertical_xx-small">
+                                <div class="slds-form-element">
+                                    <lightning-input type="checkbox" label="Is Default" checked={templateData.isDefault}
+                                        onchange={handleIsDefaultChange} disabled={disableDefault}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-2 slds-m-vertical_xx-small">
+                                <div class="slds-form-element">
+                                    <c-lookup-search lookup-label="Object" object-api-name="NonSetupObjects"
+                                        selected-value={templateData.parentObjectName} onremove={removeParentObjectname}
+                                        onrecordselection={handleParentObjectSelection} isdisabled={disabledObjNTem}
+                                        onrecordchange={handleRecordChange} isrequired=true>
+                                    </c-lookup-search>
+                                </div>
+                            </div>
+                            <!-- selectedRT -->
+                            <div class="slds-size_1-of-2 slds-m-vertical_xx-small">
+                                <div class="slds-form-element">
+                                    <lightning-combobox name="recordType" class="rt" label="Record Type"
+                                        value={templateData.recordType} placeholder="--None--" options={rtOptions}
+                                        onchange={handlerecordTypeChange} isrequired=true></lightning-combobox>
+                                </div>
+                            </div>
+                            <!--
+                                 <div class="slds-size_1-of-2"></div>
+                            -->
+
+                            <div class="slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <lightning-combobox label="Business Unit" placeholder="--None--"
+                                        options={templateBUOptions} value={templateData.businessUnit}
+                                        onchange={handleTemplateBUChange}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <!-- <lightning-input label="Page Size" value={templateData.pagesize}
+                                        onchange={handlePageSizeChange}>
+                                    </lightning-input> -->
+                                    <lightning-combobox label="Page Size" placeholder="--None--"
+                                        options={templatePSOptions} value={templateData.pagesize}
+                                        onchange={handlePageSizeChange}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+                            <!-- <div class="slds-size_1-of-2">
+                                <div class="slds-form-element slds-p-top_medium slds-p-right_xx-large slds-float_right">
+
+                                    <template if:false={templateData.isReadOnly}>
+                                        <lightning-button variant="Neutral" label="Generate Template"
+                                            title="Generate Template" onclick={generateSection}
+                                            class="slds-var-m-around_xx-small slds-m-bottom_medium">
+                                        </lightning-button>
+                                    </template>
+
+                                </div> 
+                            </div>-->
+
+                            <template if:true={templateData.allowEsign}>
+                                <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element">
+                                        <lightning-input type="text" label="Approver Name Reference"
+                                            value={additionalInfoJSON.approverNameRef}
+                                            onchange={handleApproverNameReferenceChange} required>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element">
+                                        <lightning-input type="text" label="Approver Email Reference"
+                                            value={additionalInfoJSON.approverEmailRef}
+                                            onchange={handleApproverEmailReferenceChange} required>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </template>
+                            <div class="slds-size_2-of-2">
+                                <div class="slds-form-element">
+                                    <lightning-textarea label="Description" onchange={handleDescriptionChange}
+                                        placeholder="Template Description..." value={templateData.description}
+                                        maxlength="255">
+                                    </lightning-textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div if:true={isShowSection} data-id="sectionblock">
+                    <div class="slds-box slds-theme_shade slds-clearfix" style="height: 60px">
+                        <Strong class="slds-var-m-horizontal_xx-small slds-float_left">Template Sections</Strong>
+                        <!--<lightning-input
+                            class="slds-var-m-horizontal_xx-small slds-p-left_x-small slds-float_right slds-p-top_small"
+                            type="checkbox" label=" Search And Copy Section" onchange={handleshowSectionCheck}>
+                        </lightning-input>-->
+                        <lightning-button style="margin-left: -4px;margin-right: -13px;" label="Add Section"
+                            title="Add Section" onclick={handleAddSection} icon-name="utility:add"
+                            class="slds-var-m-horizontal_xx-small slds-float_right">
+                        </lightning-button>
+                    </div>
+                    <!--<template if:true={showSectionCopyLookuptop}>
+                        <div class="slds-size_1-of-2 slds-var-m-around_xx-small slds-float_right">
+                            <c-custom-lookup-search lookup-label="Search Section" object-api-name={templateData.parentObjectName}
+                                icon-name="standard:shift_pattern_entry" onrecordselection={onRecordCopy}>
+                            </c-custom-lookup-search>
+                        </div>
+                    </template>-->
+                    <!--<div>&nbsp;</div>-->
+                    <!--Space to accomodate search and copy combobox -->
+                    <!--<div>&nbsp;</div>-->
+                    <lightning-accordion allow-multiple-sections-open={allowMultipleSections}
+                        active-section-name={activeSectionName}>
+                        <template for:each={templateData.sections} for:item="section">
+                            <lightning-accordion-section name={section.name} label={section.name} key={section.key}>
+                                <div key={section.key} class="slds-clearfix">
+                                    <template if:true={section.id}>
+                                        <lightning-button-icon class="slds-var-m-left_xx-small slds-float_right"
+                                            icon-name="action:remove" alternative-text="Delete Section"
+                                            data-id={section.key} title="Delete Section" size="x-small"
+                                            onclick={handleRemoveSection}>
+                                        </lightning-button-icon>
+                                    </template>
+                                    <template if:false={section.id}>
+                                        <lightning-button-icon class="slds-var-m-left_xx-small slds-float_right"
+                                            icon-name="action:remove" alternative-text="Remove Section"
+                                            data-id={section.key} title="Remove Section" size="x-small"
+                                            onclick={handleRemoveSection}>
+                                        </lightning-button-icon>
+                                    </template>
+                                </div>
+                                <fieldset key={section.key} class="slds-form-element slds-form-element_compound">
+                                    <div class="slds-form-element__control slds-m-bottom_medium">
+                                        <div class="section-row slds-var-p-around_xx-small slds-wrap">
+                                            <div class="slds-grid">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-form-element">
+                                                        <lightning-input type="text" label="Section Name"
+                                                            data-id={section.key} value={section.name}
+                                                            onchange={handleSectionNameChange} required>
+                                                        </lightning-input>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-form-element">
+                                                        <lightning-input type="number" label="Section Order Sequence"
+                                                            value={section.orderSequence}
+                                                            onchange={handleOrderSequenceChange} data-id={section.key}
+                                                            pattern="[0-9]+"
+                                                            message-when-pattern-mismatch="Only Counting Numbers Are Allowed"
+                                                            required>
+                                                        </lightning-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-grid">
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-form-element">
+                                                        <lightning-combobox label="Content Type"
+                                                            placeholder="--Select Content Type--"
+                                                            options={contentTypeOptions} value={section.contentType}
+                                                            onchange={handleSectionContentTypeChange}
+                                                            data-id={section.key} required>
+                                                        </lightning-combobox>
+                                                    </div>
+                                                </div>
+                                                <template if:true={section.isBodyContent}>
+                                                    <div class="slds-size_1-of-2 slds-m-top_large">
+                                                        <div class="slds-form-element">
+                                                            <lightning-input type="checkbox"
+                                                                label="Enable Landscape Layout"
+                                                                checked={section.isLandscapeLayout}
+                                                                data-id={section.key}
+                                                                onchange={handleEnableLandscapeLayoutChange}>
+                                                            </lightning-input>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+
+                                            <template if:true={section.isCustomContent}>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-form-element">
+                                                        <lightning-input type="text" label="Implementation Class"
+                                                            data-id={section.key}
+                                                            data-label="queryJSONobj.implementationClass"
+                                                            value={section.queryJSONobj.implementationClass}
+                                                            onchange={handleSectionInputTypeTextChange} required>
+                                                        </lightning-input>
+                                                    </div>
+                                                </div>
+
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-form-element">
+                                                        <lightning-combobox label="Custom Type"
+                                                            placeholder="--Select Custom Type--"
+                                                            options={customTypeOptions}
+                                                            value={section.queryJSONobj.customType}
+                                                            onchange={handleSectionComboBoxChange} data-id={section.key}
+                                                            data-label="queryJSONobj.customType" required>
+                                                        </lightning-combobox>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-2">
+                                                    <div class="slds-form-element">
+                                                        <lightning-input type="text" label="Custom Input"
+                                                            data-id={section.key} data-label="queryJSONobj.customInput"
+                                                            value={section.queryJSONobj.customInput}
+                                                            onchange={handleSectionInputTypeTextChange}>
+                                                        </lightning-input>
+                                                    </div>
+                                                </div>
+                                                <template if:true={section.queryJSONobj.isCustomJson}>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element">
+                                                            <lightning-combobox label="Text Replacement"
+                                                                placeholder="--Select Text Replacement--"
+                                                                options={jsonAvailabilityOptions}
+                                                                value={section.queryJSONobj.jsonAvailability}
+                                                                onchange={handleSectionComboBoxChange}
+                                                                data-id={section.key}
+                                                                data-label="queryJSONobj.jsonAvailability" required>
+                                                            </lightning-combobox>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </template>
+
+                                            <template if:true={section.isRelatedRecords}>
+                                                <div class="slds-grid">
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element">
+                                                            <c-lookup-search lookup-label="Object"
+                                                                object-api-name={fetchChildObjects}
+                                                                field-key={section.key} field-label="objectName"
+                                                                selected-value={section.queryJSONobj.objectName}
+                                                                onrecordselection={handleSectionQueryJSONChangeObject}
+                                                                onremove={handleRemoveObject} isrequired=false>
+                                                            </c-lookup-search>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element">
+
+
+                                                            <!-- 
+                                                                <template if:true={isDefaultLookupField}> 
+                                                            <lightning-input type="text" label="Parent Field Api Name"
+                                                                onchange={handleSectionQueryJSONChange}
+                                                                data-id={section.key} data-label='parentFieldApiName'
+                                                                value={section.queryJSONobj.parentFieldApiName} required>
+                                                            </lightning-input>
+                                                            </template> -->
+
+
+                                                            <!-- <template if:false={isDefaultLookupField}>-->
+                                                            <lightning-combobox name="objectFields" class="fld"
+                                                                label="Parent Field API"
+                                                                value={section.queryJSONobj.parentFieldApiName}
+                                                                placeholder="Select Field"
+                                                                options={parentFieldAPIOptions}
+                                                                onchange={handleSectionQueryJSONChange}
+                                                                data-id={section.key} data-label='parentFieldApiName'
+                                                                required>
+                                                            </lightning-combobox>
+                                                            <!--  </template> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="slds-size_1-of-1">
+                                                    <div class="slds-grid slds-grid_reverse">
+
+                                                        <div class="relatedListIconPadding">
+                                                            <button class="slds-button slds-button_icon"
+                                                                title="Parent Field" data-id={section.key}
+                                                                data-type="RelatedRecord"
+                                                                onclick={handleParentFieldSelectionOpen}>
+                                                                <lightning-icon icon-name="utility:jump_to_right"
+                                                                    alternative-text="Parent Field" size="medium">
+                                                                </lightning-icon>
+                                                                <span class="slds-assistive-text">Parent Field</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="slds-col">
+                                                            <c-multiselect-combobox label="Multi Select Fields"
+                                                                object-name={section.queryJSONobj.objectName}
+                                                                section-id={section.key} data-id={section.key}
+                                                                section-label="fields"
+                                                                onuserselected={handleChildFieldSelection}
+                                                                selected-from-parent={section.queryJSONobj.fields}
+                                                                onfieldsselection={handleChildFieldSelection}>
+                                                            </c-multiselect-combobox>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-1">
+                                                    <div class="slds-form-element">
+                                                        <lightning-input type="text" label="Filter"
+                                                            onchange={handleSectionQueryJSONChange}
+                                                            data-id={section.key} data-label='filter'
+                                                            value={section.queryJSONobj.filter}>
+                                                        </lightning-input>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-grid">
+                                                    <div class="slds-col">
+                                                        <div class="slds-form-element">
+                                                            <lightning-input type="text" label="Order By Field"
+                                                                onchange={handleSectionQueryJSONChange}
+                                                                data-id={section.key} data-label='orderByField'
+                                                                value={section.queryJSONobj.orderByField}>
+                                                            </lightning-input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-col">
+                                                        <div class="slds-form-element">
+                                                            <lightning-combobox label="Order By"
+                                                                options={orderByOptions}
+                                                                onchange={handleSectionQueryJSONChange}
+                                                                data-id={section.key} data-label='orderBy'
+                                                                value={section.queryJSONobj.orderBy}>
+                                                            </lightning-combobox>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-col">
+                                                        <div class="slds-form-element">
+                                                            <lightning-input type="text" label="Limit"
+                                                                onchange={handleSectionQueryJSONChange}
+                                                                data-id={section.key} data-label='recordLimit'
+                                                                value={section.queryJSONobj.recordLimit}>
+                                                            </lightning-input>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_1-of-1 slds-m-vertical_xx-small">
+                                                    <div class="slds-form-element">
+                                                        <lightning-input type="checkbox" label="Show Table Style"
+                                                            onchange={handleShowTableStyleChange}>
+                                                        </lightning-input>
+                                                    </div>
+                                                </div>
+                                                <template if:true={showTableStyle}>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element">
+                                                            <lightning-textarea label="Table Style"
+                                                                onchange={handleSectionQueryJSONChange}
+                                                                placeholder="Table CSS Style..." data-id={section.key}
+                                                                data-label='tableStyle'
+                                                                value={section.queryJSONobj.tableStyle}>
+                                                            </lightning-textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2 slds-m-vertical_xx-small">
+                                                        <div class="slds-form-element">
+                                                            <lightning-input type="checkbox" label="Enable Table Header"
+                                                                onchange={handleSectionQueryJSONChange}
+                                                                data-id={section.key} data-label='enableTableHeader'
+                                                                checked={section.queryJSONobj.enableTableHeader}>
+                                                            </lightning-input>
+                                                        </div>
+                                                    </div>
+                                                    <template if:true={section.queryJSONobj.enableTableHeader}>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element">
+                                                                <lightning-textarea label="Table Header Style"
+                                                                    onchange={handleSectionQueryJSONChange}
+                                                                    placeholder="Table Header CSS Style..."
+                                                                    data-id={section.key} data-label='tableHeaderStyle'
+                                                                    value={section.queryJSONobj.tableHeaderStyle}>
+                                                                </lightning-textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element">
+                                                                <lightning-textarea label="Table Header Row Style"
+                                                                    onchange={handleSectionQueryJSONChange}
+                                                                    placeholder="Table Header Row CSS Style..."
+                                                                    data-id={section.key}
+                                                                    data-label='tableHeaderRowStyle'
+                                                                    value={section.queryJSONobj.tableHeaderRowStyle}>
+                                                                </lightning-textarea>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element">
+                                                            <lightning-textarea label="Row Style"
+                                                                onchange={handleSectionQueryJSONChange}
+                                                                placeholder="Row CSS Style..." data-id={section.key}
+                                                                data-label='row1Style'
+                                                                value={section.queryJSONobj.row1Style}>
+                                                            </lightning-textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-size_1-of-2 slds-m-vertical_xx-small">
+                                                        <div class="slds-form-element">
+                                                            <lightning-input type="checkbox"
+                                                                label="Enable Alternate Row Style"
+                                                                onchange={handleSectionQueryJSONChange}
+                                                                data-id={section.key}
+                                                                data-label='enableAlternateRowStyle'
+                                                                checked={section.queryJSONobj.enableAlternateRowStyle}>
+                                                            </lightning-input>
+                                                        </div>
+                                                    </div>
+                                                    <template if:true={section.queryJSONobj.enableAlternateRowStyle}>
+                                                        <div class="slds-size_1-of-2">
+                                                            <div class="slds-form-element">
+                                                                <lightning-textarea label="Alternate Row Style"
+                                                                    onchange={handleSectionQueryJSONChange}
+                                                                    placeholder="Alternate Row CSS Style..."
+                                                                    data-id={section.key} data-label='row2Style'
+                                                                    value={section.queryJSONobj.row2Style}>
+                                                                </lightning-textarea>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element">
+                                                            <lightning-textarea label="Cell Style"
+                                                                onchange={handleSectionQueryJSONChange}
+                                                                placeholder="Table CSS Style..." data-id={section.key}
+                                                                data-label='cellStyle'
+                                                                value={section.queryJSONobj.cellStyle}>
+                                                            </lightning-textarea>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </template>
+
+                                            <template if:false={section.isBodyContent}>
+                                                <template if:false={section.isPageBreakOrBlankPage}>
+                                                    <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element">
+                                                            <lightning-combobox label="Visibility"
+                                                                placeholder="--Select Visibility--"
+                                                                options={visibilityOptions} value={section.visibility}
+                                                                onchange={handleVisibilityChange} data-id={section.key}
+                                                                required>
+                                                            </lightning-combobox>
+                                                        </div>
+                                                    </div>
+                                                    <!--
+                                                        <div class="slds-size_1-of-2">
+                                                        <div class="slds-form-element">
+                                                            <lightning-combobox label="Alignment"
+                                                                placeholder="Select Alignment"
+                                                                options={alignmentOptions} value={section.alignment}
+                                                                onchange={handleAlignmentChange} data-id={section.key}>
+                                                            </lightning-combobox>
+                                                        </div>
+                                                    </div>
+                                                    -->
+
+                                                </template>
+                                            </template>
+                                            <template if:false={section.isPageBreakOrBlankPage}>
+                                                <div class="slds-size_2-of-2 slds-m-top_x-small">
+                                                    <div class="slds-form-element">
+                                                        <!--<tinymce-editor 
+                                                            api-key="07ud7qhgdgyt4i1eldmh1bgcmyylrpefpz45gq1wvalyjt0d" 
+                                                            >
+                                                        </tinymce-editor>-->
+
+                                                        <lightning-input-rich-text formats={formats}
+                                                            data-id={section.key} label="Section Content"
+                                                            title="Section Content" value={section.content}
+                                                            placeholder="Sections contents goes here..."
+                                                            share-with-entity-id={organizationId}
+                                                            onchange={handleSectionContentChange}
+                                                            onblur={createAddField} class="richtext">
+                                                        </lightning-input-rich-text>
+                                                    </div>
+                                                </div>
+                                                <template if:false={section.content}>
+                                                    <template if:true={rtfErrorMessage}>
+                                                        <div class="slds-size_2-of-2">
+                                                            <div class="slds-p-around_xx-small slds-text-color_error">
+                                                                <p>{rtfErrorMessage}</p>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                                <template if:true={isAdvanceEditorPageAvailable}>
+                                                    <template if:true={section.id}>
+                                                        <div class="slds-size_2-of-2">
+                                                            <div class="slds-float--right slds-m-around_small">
+                                                                <lightning-button-icon icon-name="utility:new_window"
+                                                                    alternative-text="Advance Editor" size="medium"
+                                                                    title="Advance Editor" variant="bare"
+                                                                    data-id={section.id} onclick={handleOpenNewWindow}>
+                                                                </lightning-button-icon>
+                                                                <lightning-button-icon class="slds-m-left_large"
+                                                                    icon-name="utility:refresh"
+                                                                    alternative-text="Refresh" size="medium"
+                                                                    title="Refresh" variant="bare" data-id={section.id}
+                                                                    onclick={handleRefreshSection}>
+                                                                </lightning-button-icon>
+                                                                <br>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </template>
+
+                                                <template if:true={section.isBodyContent}>
+                                                    <template if:false={section.isRelatedRecords}>
+                                                        <template if:false={section.isCustomContent}>
+                                                            <div class="slds-p-top--xx-small" style="overflow:auto">
+                                                                <lightning-button variant="Neutral" label="Add Field"
+                                                                    title="Add Field" onclick={handleAddField}
+                                                                    data-id={section.key}
+                                                                    class="slds-var-m-around_xx-small slds-float_right">
+                                                                </lightning-button>
+
+                                                            </div>
+                                                        </template>
+                                                    </template>
+                                                </template>
+
+                                                <lightning-accordion
+                                                    allow-multiple-sections-open={allowMultipleSections}>
+                                                    <template for:each={section.fields} for:item="field">
+                                                        <lightning-accordion-section name={field.name}
+                                                            label={field.name} key={field.key}>
+                                                            <!--field.fieldLabel-->
+                                                            <div key={field.key} class="slds-clearfix">
+                                                                <template key={field.key} if:true={field.id}>
+                                                                    <lightning-button-icon key={field.key}
+                                                                        class="slds-var-m-left_xx-small slds-m-top_small slds-float_right"
+                                                                        icon-name="action:remove"
+                                                                        alternative-text="Delete Field"
+                                                                        data-id={field.key} title="Delete Field"
+                                                                        size="x-small" onclick={handleRemoveField}>
+                                                                    </lightning-button-icon>
+                                                                </template>
+                                                                <template key={field.key} if:false={field.id}>
+                                                                    <lightning-button-icon key={field.key}
+                                                                        class="slds-var-m-left_xx-small slds-m-top_small slds-float_right"
+                                                                        icon-name="action:remove"
+                                                                        alternative-text="Remove Field"
+                                                                        data-id={field.key} title="Remove Field"
+                                                                        size="x-small" onclick={handleRemoveField}>
+                                                                    </lightning-button-icon>
+                                                                </template>
+                                                            </div>
+                                                            <fieldset key={field.key}
+                                                                class="slds-form-element slds-form-element_compound">
+                                                                <div
+                                                                    class="slds-form-element__control slds-m-bottom_medium">
+                                                                    <lightning-layout
+                                                                        class="slds-form-element__row section-row slds-var-p-bottom_x-small slds-var-p-top_xx-small slds-wrap">
+                                                                        <lightning-layout-item flexibility="auto"
+                                                                            class="slds-p-around_xx-small">
+                                                                            <lightning-input type="text"
+                                                                                label="Field Name" data-id={field.key}
+                                                                                onchange={handleFieldNameChange}
+                                                                                value={field.name} required>
+                                                                            </lightning-input>
+                                                                        </lightning-layout-item>
+                                                                        <lightning-layout-item flexibility="auto"
+                                                                            class="slds-p-around_xx-small">
+                                                                            <lightning-combobox label="Field Type"
+                                                                                placeholder="--Select Type--"
+                                                                                options={fieldTypeOptions}
+                                                                                value={field.type} data-id={field.key}
+                                                                                onchange={handleFieldTypeChange}
+                                                                                required>
+                                                                            </lightning-combobox>
+                                                                        </lightning-layout-item>
+                                                                        <lightning-layout-item flexibility="auto"
+                                                                            class="slds-p-around_xx-small">
+                                                                            <!--break-->
+                                                                            <c-lookup-search
+                                                                                lookup-label="Reference Field"
+                                                                                object-api-name={templateData.parentObjectName}
+                                                                                field-key={field.key}
+                                                                                field-id={field.id}
+                                                                                selected-value={field.referenceField}
+                                                                                onrecordselection={handleReferenceFieldChange}>
+                                                                            </c-lookup-search>
+                                                                        </lightning-layout-item>
+
+                                                                        <lightning-layout-item
+                                                                            flexibility="auto, no-grow"
+                                                                            class="slds-p-around_xx-small">
+                                                                            <div
+                                                                                class="slds-form-element addFieldIconPadding">
+
+                                                                                <!--break comment-->
+                                                                                <button
+                                                                                    class="slds-button slds-button_icon"
+                                                                                    title="Parent Field"
+                                                                                    data-id={field.key} data-type="Body"
+                                                                                    data-name={field.id}
+                                                                                    onclick={handleParentFieldSelectionOpen}>
+                                                                                    <lightning-icon
+                                                                                        icon-name="utility:jump_to_right"
+                                                                                        alternative-text="Parent Field"
+                                                                                        size="medium">
+                                                                                    </lightning-icon>
+                                                                                    <span
+                                                                                        class="slds-assistive-text">Parent
+                                                                                        Field</span>
+
+                                                                                </button>
+
+                                                                            </div>
+                                                                        </lightning-layout-item>
+                                                                        <template if:true={field.isDate}>
+                                                                            <lightning-layout-item flexibility="auto"
+                                                                                padding="around-small">
+
+                                                                                <div class="slds-form-element">
+                                                                                    <lightning-combobox
+                                                                                        label="Date Format"
+                                                                                        placeholder="--Select Format--"
+                                                                                        options={dateFormats}
+                                                                                        value={field.dateFormat}
+                                                                                        data-id={field.key}
+                                                                                        onchange={handleDateFormatChange}
+                                                                                        required>
+                                                                                    </lightning-combobox>
+                                                                                </div>
+                                                                            </lightning-layout-item>
+                                                                        </template>
+
+                                                                        <template if:true={field.isPicklist}>
+                                                                            <lightning-layout-item flexibility="auto"
+                                                                                padding="around-small">
+
+                                                                                <div class="slds-form-element">
+                                                                                    <lightning-textarea
+                                                                                        label="Picklist Values"
+                                                                                        data-id={field.key}
+                                                                                        onchange={handlePicklistValuesChange}
+                                                                                        placeholder="Line separated picklist values.."
+                                                                                        value={field.picklistValues}>
+                                                                                    </lightning-textarea>
+                                                                                </div>
+                                                                            </lightning-layout-item>
+                                                                        </template>
+                                                                    </lightning-layout>
+
+                                                                </div>
+                                                            </fieldset>
+                                                        </lightning-accordion-section>
+                                                    </template>
+                                                </lightning-accordion>
+
+                                            </template>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </lightning-accordion-section>
+                        </template>
+                    </lightning-accordion>
+                    <div>&nbsp;</div>
+                    <lightning-input class="slds-var-m-around_xx-small" type="checkbox" label=" Search And Copy Section"
+                        onchange={handleshowSectionCopyLookup}>
+                    </lightning-input>
+                    <template if:true={showSectionCopyLookup}>
+                        <div class="slds-size_1-of-2 slds-var-m-around_xx-small">
+                            <c-custom-lookup-search lookup-label="Search Section"
+                                object-api-name={templateData.parentObjectName} icon-name="standard:account"
+                                onrecordselection={onRecordCopy}>
+                            </c-custom-lookup-search>
+                        </div>
+                    </template>
+                    <div>&nbsp;</div>
+                    <!--Space to accomodate search and copy combobox -->
+                    <div>&nbsp;</div>
+                    </br>
+                    <lightning-button variant="Neutral" label="Add Section" title="Add Section"
+                        onclick={handleAddSection} class="slds-var-m-around_xx-small slds-m-bottom_medium">
+                    </lightning-button>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                </div>
+            </div>
+            <div if:true={previewShow} data-id="previewblock" class="slds-scrollable slds-size--1-of-2"
+                style="height: 75vh;">
+
+                <div class="slds-p-around_medium slds-m-left_medium slds-size_5-of-5"
+                    style="border: 1px solid #dddbda;min-height: 69vh">
+                    <template for:each={templateData.sections} for:item="section">
+
+                        <!--ABDS:s:Added for header-->
+                        <template style="top: 0;" if:false={section.isBodyContent}>
+                            <lightning-formatted-rich-text key={section.key} value={section.content}>
+                            </lightning-formatted-rich-text>
+                        </template>
+                        <!--ABDS:e:Added for header-->
+
+                        <template if:true={section.isBodyContent}>
+                            <lightning-formatted-rich-text key={section.key} value={section.content}>
+                            </lightning-formatted-rich-text>
+                        </template>
+
+                        <template if:true={section.isPageBreak}>
+                            <p class="slds-text-align_center slds-text-color_weak slds-box slds-box_xx-small slds-m-vertical_small"
+                                key={section.key}>
+                                PAGE BREAK
+                                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+                            </p>
+                        </template>
+                        <template if:true={section.isBlankPage}>
+                            <p class="slds-text-align_center slds-text-color_success slds-box slds-box_xx-small slds-m-vertical_small"
+                                key={section.key}>
+                                BLANK PAGE
+                            </p>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <div class="slds-button-group slds-m-top_large slds-align_absolute-center" style="margin-top: 2rem;"
+            role="group">
+            <template if:false={templateData.isReadOnly}>
+                <lightning-button class="slds-m-top_medium slds-p-around_x-small" variant="brand" label="Save"
+                    title="Save" onclick={handleSave}>
+                </lightning-button>
+            </template>
+
+            <lightning-button class="slds-m-top_medium slds-p-around_x-small" variant="Neutral" label="Close"
+                title="Close" onclick={handleClose}>
+            </lightning-button>
+        </div>
+    </div>
+
+    <template if:true={isRemoveSectionOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container modalWidth">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleRemoveSectionClose}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <template if:false={sectionToRemove.id}>
+                        <h2 class="slds-text-heading_medium slds-hyphenate">Remove Section</h2>
+                    </template>
+                    <template if:true={sectionToRemove.id}>
+                        <h2 class="slds-text-heading_medium slds-hyphenate">Delete Section</h2>
+                    </template>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-grid slds-wrap slds-is-relative">
+                        <template if:false={sectionToRemove.id}>
+                            <p class="slds-text-heading_medium slds-hyphenate slds-align_absolute-center">
+                                Do you want to remove {sectionToRemove.name}?
+                            </p>
+                        </template>
+                        <template if:true={sectionToRemove.id}>
+                            <p class="slds-text-heading_medium slds-hyphenate slds-align_absolute-center">
+                                Do you want to delete {sectionToRemove.name} from the template?
+                            </p>
+                        </template>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <template if:false={sectionToRemove.id}>
+                        <button class="slds-button slds-button_brand"
+                            onclick={handleConfirmRemoveSection}>Remove</button>
+                    </template>
+                    <template if:true={sectionToRemove.id}>
+                        <button class="slds-button slds-button_brand"
+                            onclick={handleConfirmRemoveSection}>Delete</button>
+                    </template>
+                    <button class="slds-button slds-button_neutral" onclick={handleRemoveSectionClose}>Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={isRemoveFieldOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleRemoveFieldClose}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <template if:true={fieldToRemove.id}>
+                        <h2 class="slds-text-heading_medium slds-hyphenate">Delete Field</h2>
+                    </template>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-grid slds-wrap slds-is-relative">
+                        <template if:true={fieldToRemove.id}>
+                            <p class="slds-text-heading_medium slds-hyphenate slds-align_absolute-center">
+                                Do you want to delete "{fieldToRemove.name}" field from the template?
+                            </p>
+                        </template>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={handleConfirmRemoveField}>Delete</button>
+                    <button class="slds-button slds-button_neutral" onclick={handleRemoveFieldClose}>Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={isConfirmCloseOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close this window" onclick={handleCancel}>
+                        <lightning-icon icon-name="utility:close" alternative-text="Cancel" variant="inverse"
+                            size="small">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close this window</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Save Changes</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-grid slds-wrap slds-is-relative">
+                        <p class="slds-text-heading_small slds-hyphenate slds-align_absolute-center">
+                            Do you want to save the changes?
+                        </p>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={handleCancel}>Cancel</button>
+                    <button class="slds-button slds-button_neutral" onclick={close}>No</button>
+                    <button class="slds-button slds-button_brand" onclick={handleSave}>Yes</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={isParentFieldSelectionOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container modalWidth">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleParentFieldSelectionClose}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Select Parent Field</h2>
+
+                </header>
+                <div style="overflow: visible;" class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-grid slds-wrap slds-is-relative">
+                        <!-- <p class="slds-text-heading_medium slds-hyphenate slds-align_absolute-center">
+                                     hi
+                                </p> -->
+                        <!-- <template for:each={ParentFieldSelectionData} for:item="ParentField">-->
+                        <!-- <c-lookup-search 
+                                        key={ParentField.key} 
+                                        lookup-label="Reference Field"
+                                        object-api-name={ParentField.ObjectName} 
+                                        field-key={ParentField.key} 
+                                        icon-name="standard:shift_pattern_entry"
+                                        selected-value={ParentField.referenceField}
+                                        onrecordselection={handleReferenceFieldChange}>
+                                    </c-lookup-search> -->
+                        <!--<lightning-combobox 
+                                        key={ParentField.key} 
+                                        name="Parent fields"
+                                        value={ParentField.value}
+                                        placeholder="Select field"
+                                        options={ParentField.options}
+                                        onchange={handlDDChange}
+                                         >
+                                    </lightning-combobox>-->
+                        <div class="slds-col slds-p-top_medium slds-p-bottom_x-small childFieldWidth">
+
+                            <lightning-combobox name="objectFields" class="fld" label="Field Names"
+                                value={selectedField} placeholder="Select Field Name" options={FDDfieldOptions}
+                                onchange={handleFieldChange}></lightning-combobox>
+
+                        </div>
+                        <!--</template>key={ParentField.key}-->
+                        <template if:true={isSelectedLookupObject}>
+                            <div class="slds-col slds-p-top_medium slds-p-bottom_x-small childFieldWidth">
+
+                                <lightning-combobox name="objectFields2" class="fld2" label="Field Names"
+                                    value={selectedField2} placeholder="Select Field Name" options={FDDfieldOptions2}
+                                    onchange={handleFieldChange2}>
+                                </lightning-combobox>
+
+                            </div>
+                        </template>
+                        <template if:true={isSelectedLookupField}>
+                            <div class="slds-col slds-p-top_medium slds-p-bottom_x-small childFieldWidth">
+
+                                <lightning-combobox name="objectFields3" class="fld3"
+                                    label="Previous Object Field Names" value={selectedField3}
+                                    placeholder="Select Field Name2" options={FDDfieldOptions3}
+                                    onchange={handleFieldChange3}>
+                                </lightning-combobox>
+
+                            </div>
+                        </template>
+
+                        <div class="slds-col slds-p-top_medium slds-p-bottom_x-small childFieldWidth">
+                            <label class="slds-form-element__label" for="text-input-id-53"></label>
+                            <div class="slds-form-element__control">
+                                <input type="text" id="text-input-id-53" placeholder="" disabled="" class="slds-input"
+                                    value={showFields} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={handleParentFieldSelectionClose}
+                        title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={handleParentFieldSelectionSelect}
+                        title="OK">OK</button>
+
+
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>

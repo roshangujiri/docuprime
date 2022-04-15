@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>lwapic__Compact_IC_Layout</fullName>
+    <fields>lwapic__Service_Name__c</fields>
+    <fields>lwapic__Version__c</fields>
+    <fields>lwapic__IsActive__c</fields>
+    <label>Compact IC Layout</label>
+</CompactLayout>

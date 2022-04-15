@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Content_Type__c</fullName>
+    <description>To Differentiate body content other non body contents like Header, Footer, Page Break and Blank Page.</description>
+    <externalId>false</externalId>
+    <label>Content Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Body</fullName>
+                <default>true</default>
+                <label>Body</label>
+            </value>
+            <value>
+                <fullName>Header</fullName>
+                <default>false</default>
+                <label>Header</label>
+            </value>
+            <value>
+                <fullName>Footer</fullName>
+                <default>false</default>
+                <label>Footer</label>
+            </value>
+            <value>
+                <fullName>Page Break</fullName>
+                <default>false</default>
+                <label>Page Break</label>
+            </value>
+            <value>
+                <fullName>Blank Page</fullName>
+                <default>false</default>
+                <label>Blank Page</label>
+            </value>
+            <value>
+                <fullName>Related Records</fullName>
+                <default>false</default>
+                <label>Related Records</label>
+            </value>
+            <value>
+                <fullName>Custom Content</fullName>
+                <default>false</default>
+                <label>Custom Content</label>
+            </value>
+            <value>
+                <fullName>Signature</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Signature</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

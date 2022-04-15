@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DocuPad_RelatedRecord_Id__c</fullName>
+    <description>field to store record id of the related object like contact account etc while creating content version</description>
+    <externalId>false</externalId>
+    <label>DocuPad Related Record Id</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

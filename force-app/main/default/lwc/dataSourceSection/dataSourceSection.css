@@ -1,0 +1,67 @@
+.inline-block-child {
+  display: inline-block;
+}
+.addSection {
+  display: block;
+  height: 100%;
+  line-height: 48px;
+  font-size: 14px;
+  margin-left: 23px;
+  color: #006dcc;
+}
+.list {
+  line-height: 16px;
+}
+.section{
+  width:90%;
+  height: 34.1vw;
+  margin-left:-11px;
+}
+.sectionClose{
+    width: 90%;
+    height: 34.1vw;
+    margin-left: -100%;
+}
+.uploadHeader {
+  line-height: 41px;
+  background: #e0e0e0;
+  font-size: 21px;
+  font-weight: 400;
+  margin-left: -12px;
+  margin-right: -12px;
+  margin-top: -8px;
+  margin-bottom: 7px;
+}
+.dataSource:hover {
+  background: #f5f5f5;
+}
+.iconStatus {
+  margin-left: 16px;
+}
+.iconDiv {
+  margin-top: -20px;
+}
+.selectedItem {
+  border: 1px solid cornflowerblue;
+}
+a:hover{
+  background-color:#E0E0E0;
+}
+.addDs:hover{
+    background-color:#E0E0E0;
+}
+.upload{
+     --sds-c-button-shadow: var(--lwc-shadowDrag);
+    --sds-c-button-shadow-focus: var(--lwc-shadowDrag)
+}
+.dragIcon{
+ margin-left: -22px;
+    margin-top: 7px;
+    position: absolute;
+}
+.page{
+  border: 1px solid rgb(1,118,211);
+}
+.error{
+  border:1px solid red
+}

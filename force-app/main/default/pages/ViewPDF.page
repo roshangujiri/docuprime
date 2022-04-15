@@ -1,0 +1,241 @@
+<apex:page Controller="ViewPDFController"  renderAs="pdf" action="{!loadPageContents}"  applyBodyTag="false">
+    <head>
+        <style type="text/css" media="print">
+            @page :first {
+                @top-center { content: element(firstPageHeader); }
+                @bottom-center { content: element(firstPageFooter); }
+                margin: 3cm 2cm;
+            }
+            
+            @page {
+                @top-left { content: element(allPageHeader); }
+                @bottom-left { content: element(allPageFooter); }
+                margin: 3cm 2cm;
+            }
+            
+            @page {size: {!pagesize}; }
+
+            @page {
+              @bottom-right-corner { content: counter(page); }
+            }
+
+            @page landscaped {
+                size: A4 landscape;
+                margin: 3cm 1.5cm;
+            }
+
+            .landscape-page {
+                page: landscaped;
+                width: 10in;
+            }
+            
+            div.firstPageHeader {
+                padding: 10px;
+                position: running(firstPageHeader);
+            }
+            
+            div.allPageHeader {
+                padding: 10px;
+                position: running(allPageHeader);
+            }
+
+            div.allPageHeader img{
+                /*width:300px;*/
+            }
+
+            div.firstPageFooter {
+               padding: 10px;
+                position: running(firstPageFooter);
+            }
+
+            div.allPageFooter {
+                padding: 10px;
+                position: running(allPageFooter);
+            }
+
+            div.mainbody {
+                position: relative;
+            }
+
+            .break-after {
+                page-break-after: always;
+            } 
+            .break-before {
+                page-break-before:always;
+                page-break-inside:avoid;
+            } 
+            * {
+                margin-top:0px; 
+                margin-bottom:0px;
+            }
+            table {
+                border-collapse: collapse;
+                -fs-table-paginate:paginate;
+                border-spacing: 0;
+                padding: 2px 2px 2px 4px;
+            }
+            .ql-indent-1 { padding-left: 3em; }
+            .ql-indent-2 { padding-left: 6em; }
+            .ql-indent-3 { padding-left: 9em; }
+            .ql-indent-4 { padding-left: 12em; }
+            .ql-indent-5 { padding-left: 15em; }
+            .ql-indent-6 { padding-left: 18em; }
+            .ql-indent-7 { padding-left: 21em; }
+            .ql-indent-8 { padding-left: 24em; }
+
+            body { font-family: Arial Unicode MS; }
+
+            .pbBody {
+                border-width: 1px 0 0;
+                border-style: solid;
+                color: #27282E;
+                padding: 4px 3px;background-color: #eee;
+                border-color: #eee;
+            }
+            .bPageBlock {
+                padding: 0;
+                border: none;
+                background: none;
+                margin-bottom: 17px;
+                margin : 0;
+                clear: both;
+                border-radius: 4px;
+            }
+            .pbHeader {
+                border-bottom: 1px solid black;
+                padding: 2px 2px 2px 4px;
+                margin: 0;
+                background-color: #fff;
+            }
+            .pbSubsection {
+            }
+            .detailList{
+                border-top-width: 0;
+                border-bottom-width: 0;
+                width: 100%;
+                border-left-width: 0px;
+            }
+            .sectionTable {
+                display: table;
+                border-collapse: separate;
+                box-sizing: border-box;
+                text-indent: initial;
+                border-spacing: 2px;
+                border-color: grey;
+            }
+            .labelCol {
+                color: #4A4A56;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                width: 18%;
+                padding-right: 10px;
+                padding-left: 2px;
+                text-align: right;
+                font-size: 91%;
+                font-weight: bold;
+                color: #333;
+            }
+            .dataCol {
+                padding-top: 5px;
+                padding-bottom: 5px;
+                width: 32%;
+                padding-right: 2px;
+                padding-left: 10px;
+                text-align: left;
+            }
+            .col02 {
+                border-right: none;
+                margin-right: 20px;
+            } 
+        </style>
+    </head>    
+    <body>
+<!--         
+        <div class="bHeader">
+            <h1></h1>
+         </div> -->
+
+        <apex:outputPanel rendered="{!allPageHeader != '' && allPageHeader != Null}">
+            <apex:outputPanel rendered="{!headerAlignment != null}" layout="none">
+                <div class="allPageHeader" style="text-align:{!CASE(headerAlignment, 'Left','left', 'Right','right','center')}">
+                    <apex:outputText value="{!allPageHeader}" escape="false"/>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!headerAlignment == null}" layout="none">
+                <div class="allPageHeader">
+                    <apex:outputText value="{!allPageHeader}" escape="false"/>
+                </div>
+            </apex:outputPanel>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!firstPageHeader != '' && firstPageHeader != Null}">
+            <apex:outputPanel rendered="{!headerAlignment != null}" layout="none">
+                <div class="firstPageHeader" style="text-align:{!CASE(headerAlignment, 'Left','left', 'Right','right','center')}">
+                    <apex:outputText value="{!firstPageHeader}" escape="false"/>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!headerAlignment == null}" layout="none">
+                <div class="firstPageHeader">
+                    <apex:outputText value="{!firstPageHeader}" escape="false"/>
+                </div>
+            </apex:outputPanel>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!allPageFooter != '' && allPageFooter != Null}">
+            <apex:outputPanel rendered="{!footerAlignment != null}" layout="none">
+                <div class="allPageFooter" style="text-align:{!CASE(footerAlignment, 'Left','left', 'Right','right','center')}">
+                    <apex:outputText value="{!allPageFooter}" escape="false"/>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!footerAlignment == null}" layout="none">
+                <div class="allPageFooter">
+                    <apex:outputText value="{!allPageFooter}" escape="false"/>
+                </div>
+            </apex:outputPanel>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!firstPageFooter != '' && firstPageFooter != Null}">
+            <apex:outputPanel rendered="{!footerAlignment != null}" layout="none">
+                <div class="firstPageFooter" style="text-align:{!CASE(footerAlignment, 'Left','left', 'Right','right','center')}">
+                    <apex:outputText value="{!firstPageFooter}" escape="false"/>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!footerAlignment == null}" layout="none">
+                <div class="firstPageFooter"> 
+                    <apex:outputText value="{!firstPageFooter}" escape="false"/>
+                </div>
+            </apex:outputPanel>
+        </apex:outputPanel>
+        
+        <div class="mainbody">
+            <apex:variable var="count" value="{!1}"/>  
+            <apex:repeat value="{!wrContentDocumentLst}" var="section">
+                <apex:outputPanel rendered="{!section.contentType == 'Body' || section.contentType == 'Related Records' || section.contentType == 'Custom Content'}" layout="none">
+                    <apex:outputPanel rendered="{!section.enableLandscape == true}" layout="none">
+                        <div class="landscape-page ">  
+                            <apex:outputText value="{!section.sectionContent}" escape="false"/>
+                        </div>
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{!section.enableLandscape == false}" layout="none">
+                        
+                        <apex:outputText value="{!section.sectionContent}" escape="false"/>
+                   
+                    </apex:outputPanel>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!If(AND(section.contentType == 'Page Break',section.enablePageBeak),true,false)}">
+                     <div class="break-after"> 
+                        
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!If(AND(section.contentType == 'Blank Page',!section.isLastBlankPage),true,false)}">
+                    <!-- <apex:outputPanel rendered="{!section.contentType == 'Blank Page'}"> 
+                         <div class="break-after">&nbsp;</div>
+                        <div class="break-after"></div>    -->
+                        <div class="break-after"></div>
+                    <div class="break-after">&nbsp;</div> 
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!If(AND(section.contentType == 'Blank Page',section.isLastBlankPage),true,false)}">
+                    <div class="break-before">&nbsp;</div>  
+                </apex:outputPanel>
+                <apex:variable value="{!count+1}" var="count"/>
+            </apex:repeat>
+        </div>
+    </body>
+</apex:page>

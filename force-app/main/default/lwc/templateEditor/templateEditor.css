@@ -1,0 +1,52 @@
+.app {
+    background-color: #ffffff;
+    height: 130%;
+    width: 100%;
+}
+.fields-section {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.content-section {
+    border-right: 1px solid grey;
+    padding-right: 30px;
+}
+.section-row {
+    border: 1px solid #dddbda;
+}
+.expand-preview {
+    width: 684px;
+}
+.collapse-preview {
+    width: 100px;
+}
+.expand-template {
+    width: 1390px;
+}
+.collapse-template {    
+    width: 807px;
+}
+.richtext {
+    --sds-c-textarea-sizing-min-height: 9rem;
+}
+.modalWidth{
+    width: 30%;
+}
+.childFieldWidth{
+    width: 100%;
+}
+.addFieldIconPadding{
+    padding-top: 19px;
+}
+.relatedListIconPadding{
+    padding-top: 23px;
+}
+.slds-listbox_vertical{
+    max-height: 147Px;
+}
+.icon-info{
+    background-color: white;
+}
+.icon{
+background-color: beige;
+}

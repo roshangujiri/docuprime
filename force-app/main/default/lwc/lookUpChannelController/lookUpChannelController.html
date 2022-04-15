@@ -1,0 +1,70 @@
+<template>
+    <div class="slds-form-element">
+        <!--Show field lable-->
+        <label class="slds-form-element__label" for="combobox-id-2">
+            <abbr class="slds-required">* </abbr>
+            {lookupLabel} </label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+                    aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                    <div data-key="pilldiv"
+                        class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <!-- <span class=" slds-icon-utility-search slds-input__icon slds-input__icon">
+                            <lightning-icon icon-name="utility:search" size="xx-Small"
+                                class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                            </lightning-icon>
+                        </span> -->
+                        <!--Show input text box to search-->
+                        <input type="text" class={inputClass} id="combobox-id-6" name="combobox-id-6"
+                            aria-controls="listbox-id-6" role="textbox" placeholder="Search 200 OK Channel..."
+                            value={selectedValue} onkeyup={handleKeyChange} aria-autocomplete="list" />
+
+                        <!--Show close button to remove selected record-->
+                        <template if:true={selectedValue}>
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                                onclick={removeRecordOnLookup}>
+                                <span class="slds-button__icon" aria-hidden="true">
+                                    <lightning-icon icon-name="utility:close" size="xx-Small"
+                                        class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                        aria-hidden="true">
+                                    </lightning-icon>
+                                </span>
+                                <span class="slds-assistive-text">Remove selected record</span>
+                            </button>
+                        </template>
+                    </div>
+
+                    <!--Show list of records to display-->
+                    <template if:true={selectedValue}>
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open "
+                            data-key="dropdownresult">
+                            <div class={dropdownClass} role="listbox">
+                                <template if:true={showErrorMessage}>
+                                    <p class="slds-form-element__help slds-has-error" id="form-error-01"
+                                        style="color: red">
+                                        {message}
+                                    </p>
+                                </template>
+                                <ul class="slds-dropdown__list slds-listbox slds-listbox_vertical" role="menu"
+                                    aria-label="Show More">
+                                    <template for:each={recordsList} for:item="record">
+                                        <li class="slds-dropdown__item" role="presentation" key={record.Id}
+                                            data-name={record.lwapic__Channel_Name__c} onclick={onRecordSelection}>
+                                            <a aria-checked="true" href="#" role="menuitemcheckbox" tabindex="0"
+                                                data-name={record.lwapic__Channel_Name__c} onclick={onRecordSelection}>
+                                                <span class="slds-truncate" data-key={record.Id}
+                                                    data-name={record.lwapic__Channel_Name__c}>
+                                                    {record.lwapic__Channel_Name__c} </span>
+                                            </a>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

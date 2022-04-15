@@ -1,0 +1,23 @@
+.custom-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 1000px !important;
+    margin-left:-75px !important;
+}
+.custom-table-container {
+    height: 315px;
+}
+.fields-section {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.content-section {
+    border-right: 1px solid grey;
+    padding-right: 30px;
+}
+
+.slds-modal__container{
+    width: 100% !important;
+    height: 100% !important;
+    
+}

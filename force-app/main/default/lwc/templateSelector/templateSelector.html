@@ -1,0 +1,467 @@
+<template>
+
+    <!-- <lightning-quick-action-panel title="Quick Action Title"> -->
+
+
+    <!-- Document Template Model POPup Window Start-->
+    <template if:true={isDocumentListOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container" style="min-width: 850px;">
+
+                <template if:true={isLoadingDoc}>
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </template>
+
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleCloseCorpDocList}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium">Template List</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+
+
+                    <div style="display:none;">
+                        <c-form-contents class="form-contents" oncontentsave={onContentSave} record-id={recordId}
+                            object-api-name={objectApiName} saveonload='true' is-preview=true>
+                        </c-form-contents>
+                    </div>
+
+
+                    <div class="slds-p-bottom_large slds-p-left_large slds-scrollable_none" style="width:1050px">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_3-of-4 slds-scrollable slds-is-relative"
+                                style="min-height: 50vh;">
+                                <!-- <template if:true={isLoading}>
+                                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                                    </template> -->
+
+                                <div class="custom-table-container">
+                                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                        <thead>
+                                            <tr class="">
+                                                <th class="" scope="col" style="width: 4rem;">
+                                                    <div class="slds-truncate slds-assistive-text" title="SRNO">
+                                                        SRNO
+                                                    </div>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <h2><b>Template Name</b></h2>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <h2><b>Version</b></h2>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <h2><b>Is Active</b></h2>
+                                                </th>
+                                                <th class="" scope="col">
+                                                    <h2><b>Created Date</b></h2>
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={templateOptions} for:item="templateOption"
+                                                for:index="index">
+                                                <tr key={templateOption.Id} class="slds-hint-parent">
+                                                    <td>
+                                                        <div style="padding-top:5px">
+
+                                                            <template if:true={templateOption.Is_Default__c}>
+                                                                <input type="radio" id={templateOption.Id}
+                                                                    key={templateOption.Id} name="templateOptions"
+                                                                    checked value={templateOption.Id}
+                                                                    data-id={templateOption.Id} data-index={index}
+                                                                    onclick={handleTemplateSelect}>
+                                                            </template>
+                                                            <template if:false={templateOption.Is_Default__c}>
+                                                                <input type="radio" id={templateOption.Id}
+                                                                    key={templateOption.Id} name="templateOptions"
+                                                                    value={templateOption.Id}
+                                                                    data-id={templateOption.Id} data-index={index}
+                                                                    onclick={handleTemplateSelect}>
+                                                            </template>
+
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate" title={templateOption.Name}>
+                                                            <span>{templateOption.Name}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate"
+                                                            title={templateOption.Template_Version__c}>
+                                                            <span>{templateOption.Template_Version__c}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate" title={templateOption.Is_Active__c}>
+                                                            <lightning-input type="checkbox" label=""
+                                                                name="activeStatus" checked disabled></lightning-input>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="slds-truncate" title={templateOption.CreatedDate}>
+                                                            <lightning-formatted-date-time
+                                                                value={templateOption.CreatedDate} time-zone="UTC">
+                                                            </lightning-formatted-date-time>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- <p>&nbsp;</p> -->
+                                <!-- <c-paginator
+                                    page-number={pageNumber}
+                                    page-size={documentList.pageSize}
+                                    total-item-count={documentList.totalItemCount}
+                                    onprevious={handlePreviousPage}
+                                    onnext={handleNextPage}>
+                                </c-paginator> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+
+                    <lightning-button variant="brand" class="slds-button slds-button_brand" onclick={handleCreateNewDoc}
+                        label="Generate">
+                    </lightning-button>
+
+                    <button class="slds-button slds-button_brand" onclick={handleCloseCorpDocList}>Close</button>
+                </footer>
+            </div>
+        </section>
+        <!-- <div class="slds-backdrop slds-backdrop_open"></div> -->
+    </template>
+
+    <!-- Document Template Model POPup Window End-->
+    <!-- Document Delete Comfirmatation POPup Window Starts-->
+    <template if:true={isDeleteDocument}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleCloseDeleteCorpDocConfirmation}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete Corporate
+                        Document</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                    <p style="text-align:center;">Are you sure you want to delete this Corporate Document?</p>
+
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_outline-brand"
+                        onclick={handleCloseDeleteCorpDocConfirmation}>Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={handleDocumentDeleteConfirm}>Delete</button>
+                </footer>
+            </div>
+        </section>
+        <!-- <div class="slds-backdrop slds-backdrop_open"></div> -->
+    </template>
+    <!-- Document Delete Comfirmatation POPup Window Ends-->
+
+    <!-- Document Model POPup Window Start-->
+    <template if:true={isDocumentOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container custom-container">
+                <template if:true={isDocOpen}>
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </template>
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleCloseCorpDoc}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium"> Generated Report - {selectedDocument.name}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-p-bottom_large slds-p-left_large slds-scrollable_none">
+                        <div class="slds-grid slds-wrap">
+                            <div class={documentStyle} style="min-height: 50vh;">
+                                <template if:true={selectedDocument}>
+                                    <template for:each={selectedDocument.sections} for:item="section">
+
+                                        <!--ABDS:s:Added for header-->
+                                        <template style="top: 0;" if:false={section.isBodyContent}>
+                                            <div key={section.id} class="slds-p-around_x-small">
+                                                <lightning-formatted-rich-text value={section.content}>
+                                                </lightning-formatted-rich-text>
+                                            </div>
+                                        </template>
+                                        <!--ABDS:e:Added for header-->
+
+                                        <template if:true={section.isBodyContent}>
+                                            <div key={section.id} class="slds-p-around_x-small">
+                                                <lightning-formatted-rich-text value={section.content}>
+                                                </lightning-formatted-rich-text>
+                                            </div>
+                                        </template>
+                                        <template if:true={section.isPageBreak}>
+                                            <p class="slds-text-align_center slds-text-color_weak slds-box slds-box_xx-small slds-m-vertical_small"
+                                                key={section.key}>
+                                                PAGE BREAK
+                                            </p>
+                                        </template>
+                                        <template if:true={section.isBlankPage}>
+                                            <p class="slds-text-align_center slds-text-color_success slds-box slds-box_xx-small slds-m-vertical_small"
+                                                key={section.key}>
+                                                BLANK PAGE
+                                            </p>
+                                        </template>
+                                    </template>
+                                </template>
+                            </div>
+                            <template if:true={isEditMode}>
+                                <div class="slds-col slds-size_1-of-4 fields-section">
+                                    Input Field
+                                    <template for:each={templateContent} for:item="section">
+                                        <template if:true={section.fields}>
+                                            <div key={section.id} class="slds-p-around_x-small">
+                                                <template for:each={section.fields} for:item="fieldData">
+                                                    <div key={fieldData.id} class="slds-p-around_x-small">
+                                                        <c-data-type-cell class="datatypecell"
+                                                            section-id={section.docId} cell-data={fieldData}
+                                                            data-type={fieldData.type}
+                                                            data-format={fieldData.dateFormat}
+                                                            onfieldvaluechange={handleFieldValueChange}>
+                                                        </c-data-type-cell>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer slds-scrollable">
+                    <!--style="height:5rem"-->
+                    <template if:false={isEditMode}>
+
+
+                        <button class="slds-button slds-button_brand" onclick={handleViewAsPDF}>View as PDF</button>
+
+                        <!-- <lightning-combobox class="slds-clearfix slds-float_left"
+                            name="docType"
+                            style="margin-top:-19px;text-align:left;"
+                            value={docType}
+                            placeholder="Doc Type"
+                            options={docTypeOptions}
+                            onchange={handleDocTypeChange} >
+                        </lightning-combobox>  
+                        <button style="margin-left: 8px;" class="slds-clearfix slds-float_left slds-button slds-button_brand" onclick={handleViewAsDoc}>View</button> -->
+
+                        <template if:true={recordId}>
+                            <template if:true={allowAttachAsPDF}>
+                                <button class="slds-button slds-button_brand" title="Attach as PDF to the record"
+                                    onclick={handleAttachasPDF}>Attach as PDF</button>
+                            </template>
+                            <template if:true={allowEsign}>
+                                <button class="slds-button slds-button_brand" onclick={handleOpenDocumentEsign}>Send
+                                    for Esign</button>
+                            </template>
+                        </template>
+                        <template if:true={allowSendAsEmailAttachment}>
+                            <button class="slds-button slds-button_brand" onclick={handleComposeEmail}>Compose
+                                Email</button>
+                        </template>
+                        <!-- <button class="slds-button slds-button_brand" onclick={handleViewAsPDF}>View as PDF</button> -->
+                        <!-- <button class="slds-button slds-button_brand" onclick={handleEdit}>Edit</button> -->
+                    </template>
+                    <template if:true={isEditMode}>
+                        <button class="slds-button slds-button_brand" onclick={handleSave}>Save</button>
+                    </template>
+                    <button class="slds-button slds-button_brand" onclick={handleBackCorpDoc}>Back</button>
+                    <button class="slds-button slds-button_brand" onclick={handleCloseCorpDoc}>Close</button>
+                </footer>
+            </div>
+        </section>
+        <!-- <div class="slds-backdrop slds-backdrop_open"></div> -->
+    </template>
+    <!-- Document Model POPup Window End-->
+
+    <!--Send Email Model POPUp Start-->
+    <template if:true={isComposeEmailOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container custom-container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleCloseEmailpopup}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium"> Compose Email</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-p-bottom_large slds-p-left_large slds-scrollable_none" style="width:800px">
+                        <div class="app slds-p-around_x-large">
+
+                            <div class="slds-grid slds-gutters slds-p-bottom_large">
+                                <div class="slds-col slds-size_3-of-12 slds-p-top--large">
+                                    <div class="slds-text-heading_small">
+                                        Email Template:<abbr class="slds-required" title=""> </abbr>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-combobox label="" placeholder="--Select Email Template--"
+                                        options={emailTemplateNames} value={selectedEmailTemplate}
+                                        onchange={handleEmailTemplateChange}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid slds-gutters slds-p-bottom_large">
+                                <div class="slds-col slds-size_3-of-12">
+                                    <div class="slds-text-heading_small">
+                                        To:<abbr class="slds-required" title="required"> *</abbr>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-input type="text" variant="label-hidden" value={toAddress}
+                                        onchange={handleToAddressChange}></lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-p-bottom_large">
+                                <div class="slds-col slds-size_3-of-12">
+                                    <div class="slds-text-heading_small">Cc:</div>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-input type="text" variant="label-hidden" value={ccAddress}
+                                        onchange={handleCCAddressChange}></lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-p-bottom_large">
+                                <div class="slds-col slds-size_3-of-12">
+                                    <div class="slds-text-heading_small">Bcc:</div>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-input type="text" variant="label-hidden" value={bccAddress}
+                                        onchange={handleBccAddressChange}></lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-p-bottom_large">
+                                <div class="slds-col slds-size_3-of-12">
+                                    <div class="slds-text-heading_small">
+                                        Subject:<abbr class="slds-required" title="required"> *</abbr>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-input type="text" variant="label-hidden" value={emailSubject}
+                                        onchange={handleSubjectChange}></lightning-input>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-p-top_large">
+                                <div class="slds-col slds-size_3-of-12">
+                                    <div class="slds-text-heading_small">
+                                        Message:<abbr class="slds-required" title="required"> *</abbr>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-input-rich-text formats={formats} variant="label-hidden"
+                                        value={emailMessage} onchange={handleMessageChange}>
+                                    </lightning-input-rich-text>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-p-top_large">
+                                <p><b>NOTE:</b> The Document will be attached to this email.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={handleSendEmail}>Send Email</button>
+                    <button class="slds-button slds-button_brand" onclick={handleBackEmailpopup}>Back</button>
+                    <button class="slds-button slds-button_brand" onclick={handleCloseEmailpopup}>Close</button>
+                </footer>
+            </div>
+        </section>
+        <!-- <div class="slds-backdrop slds-backdrop_open"></div> -->
+    </template>
+    <!--Send Email Model POPUp Start-->
+
+    <!-- Document Esign Model POPup Window Start-->
+    <template if:true={isDocumentEsignOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleCloseDocumentEsign}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium">Send Document for E-sign</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-p-bottom_large slds-p-left_large slds-scrollable_none" style="width:800px">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_3-of-4 slds-is-relative" style="min-height: 50vh;">
+                                <template if:true={isDocumentEsignLoading}>
+                                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                                </template>
+                                <div class="slds-align_absolute-center">
+                                    <div class="slds-form-element__control slds-m-bottom_medium">
+                                        <div class="slds-form-element__row slds-var-p-around_xx-small slds-wrap">
+                                        </div>
+                                        <div class="slds-form-element__row slds-var-p-around_xx-small slds-wrap">
+                                            <div class="slds-size_1-of-1">
+                                                <div class="slds-form-element">
+                                                    <lightning-input label="Approver Name" value={approverName}
+                                                        onchange={handleApproverNameChange} required>
+                                                    </lightning-input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="slds-form-element__row section-row slds-var-p-around_xx-small slds-wrap">
+                                            <div class="slds-size_1-of-1">
+                                                <div class="slds-form-element">
+                                                    <lightning-input label="Approver Email" value={approverEmail}
+                                                        onchange={handleApproverEmailChange} required>
+                                                    </lightning-input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={handleSendForEsign}>Send For
+                        Esign</button>
+                    <button class="slds-button slds-button_brand" onclick={handleBackDocumentEsign}>Back</button>
+                    <button class="slds-button slds-button_brand" onclick={handleCloseDocumentEsign}>Close</button>
+                </footer>
+            </div>
+        </section>
+        <!-- <div class="slds-backdrop slds-backdrop_open"></div> -->
+    </template>
+    <!-- Document Esign Model POPup Window End-->
+
+    <!-- </lightning-quick-action-panel> -->
+
+</template>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>lwapic__Action_Type_Handler_Validation2</fullName>
+    <active>true</active>
+    <description>Action Handler Validation for all action types</description>
+    <errorConditionFormula>AND(
+
+ NOT( OR(ISPICKVAL( lwapic__Type__c , &quot;Chaining&quot;),ISPICKVAL( lwapic__Type__c , &quot;Client Response&quot;))) , 
+
+ ISBLANK(lwapic__Handler_Name__c) 
+
+)</errorConditionFormula>
+    <errorDisplayField>lwapic__Handler_Name__c</errorDisplayField>
+    <errorMessage>Action Handler is required for all action types other than &quot;Integration Channel&quot;</errorMessage>
+</ValidationRule>

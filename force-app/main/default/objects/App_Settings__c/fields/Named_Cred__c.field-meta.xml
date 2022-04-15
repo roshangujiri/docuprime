@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Named_Cred__c</fullName>
+    <description>If you have selected &quot;Use Named Cred&quot; then specify Name Credential name</description>
+    <externalId>false</externalId>
+    <inlineHelpText>&quot;Name Credential&quot; name</inlineHelpText>
+    <label>Named Cred</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,23 @@
+<template>
+    <lightning-layout vertical-align="center" class="slds-m-horizontal_x-small">
+        <lightning-layout-item size="2">
+            <lightning-button-icon
+                class="previous"
+                icon-name="utility:chevronleft"
+                onclick={handlePrevious}
+                disabled={isFirstPage}
+            ></lightning-button-icon>
+        </lightning-layout-item>
+        <lightning-layout-item size="8" class="nav-info">
+            {totalItemCount} items • Page {currentPageNumber} of {totalPages}
+        </lightning-layout-item>
+        <lightning-layout-item size="2" class="nav-next">
+            <lightning-button-icon
+                class="next"
+                icon-name="utility:chevronright"
+                onclick={handleNext}
+                disabled={isLastPage}
+            ></lightning-button-icon>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

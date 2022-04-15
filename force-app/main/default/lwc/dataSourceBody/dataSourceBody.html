@@ -1,0 +1,258 @@
+<template>
+    <div if:true={showSpinner} class="loader">
+        <div class="slds-spinner_container slds-is-fixed">
+            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                <span class="slds-assistive-text">Laoding</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </div>
+    <main class={containerClass} data-id="container">
+        <div class="demo-only demo-only--sizing slds-grid slds-wrap">
+            <div class="slds-size_2-of-2">
+                <div>
+                    <template if:false={isDataSource}>
+                        <div class=" slds-align_absolute-center" style="height: 69vh;">
+                            <section>
+                                <h1 class="heading ">No Data Sources for Template</h1>
+                                <br>
+                                <h3 class="subHeading ">Click "Add New Data Sources" to Start Your
+                                    Template</h3>
+                            </section>
+
+                        </div>
+                    </template>
+                    <template if:true={isDataSource}>
+                        <template for:each={arrayList} for:item="dataItem" for:index="index">
+                            <template if:true={dataItem.isNew}>
+                                <div key={dataItem.index}>
+                                    <lightning-card variant="base" class="card-1">
+                                        <template if:true={isObject}>
+                                            <h3 slot="title" class="heading">
+                                                {sourceName}
+                                            </h3>
+                                            <div class="slds-grid slds-wrap"
+                                                style="padding-left: 15px;padding-right:15px">
+                                                <div class="slds-col slds-size_12-of-12 ">
+                                                    <span>
+                                                        <lightning-input name="sourceName" variant="standard"
+                                                            type="text" label="Data Source Name" class="padding"
+                                                            onchange={onChangeHandler} value={dataItem.Name}
+                                                            access-key={index} required="true"></lightning-input>
+                                                    </span>
+                                                </div>
+                                                <div class="slds-size_1-of-1">
+                                                    <div class="slds-grid slds-grid_reverse">
+                                                        <!-- <div class="relatedListIconPadding">
+                                                            <button class="slds-button slds-button_icon"
+                                                                title="Parent Field" data-id="section.key"
+                                                                data-type="RelatedRecord"
+                                                                onclick={handleParentFieldSelectionOpen}>
+                                                                <lightning-icon icon-name="utility:jump_to_right"
+                                                                    alternative-text="Parent Field" size="medium">
+                                                                </lightning-icon>
+                                                                <span class="slds-assistive-text">Parent Field</span>
+                                                            </button>
+                                                        </div> -->
+                                                        <div class="slds-col">
+                                                            <c-multiselect-combobox label="Multi Select Fields"
+                                                                object-name={objectName}
+                                                                onfieldsselection={handleChildFieldSelection}
+                                                                onuserselected={handleChildFieldSelection}
+                                                                selected-from-parent={dataItem.Handler_Name__c}>
+                                                            </c-multiselect-combobox>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size_12-of-12" style="padding-top: 2%;">
+                                                    <div style="float: right;">
+                                                        <lightning-button variant=" destructive-text" type="button"
+                                                            label="Delete" class="button-1" access-key={index}
+                                                            onclick={handleOpenConfirmation}>
+                                                        </lightning-button>
+                                                        <lightning-button type="button" variant="brand" label="Save"
+                                                            class="button-2 slds-button_stretch" access-key={index}
+                                                            onclick={handleSave}>
+                                                        </lightning-button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </template>
+                                        <template if:false={isObject}>
+                                            <h3 slot="title" class="heading">
+                                                {sourceName}
+                                            </h3>
+                                            <div class="slds-grid slds-wrap"
+                                                style="padding-left: 15px;padding-right:15px">
+                                                <div class="slds-col slds-size_12-of-12 ">
+                                                    <span>
+                                                        <lightning-input name="sourceName" variant="standard"
+                                                            type="text" label="Data Source Name" class="padding"
+                                                            onchange={onChangeHandler} value={dataItem.Name}
+                                                            access-key={index} required="true">
+                                                        </lightning-input>
+                                                    </span>
+                                                </div>
+                                                <div class="slds-col slds-size_12-of-12">
+                                                    <span><template if:true={soqlQuery}>
+                                                            <lightning-textarea label={textAreaLabel} name="handlerName"
+                                                                onchange={onChangeHandler} access-key={index}
+                                                                value={dataItem.Handler_Name__c} required="true"
+                                                                message-when-value-missing="This field is required."
+                                                                class="padding"
+                                                                placeholder="SELECT Id, Name FROM Account WHERE Name='Sample Account'">
+                                                            </lightning-textarea>
+                                                        </template></span>
+                                                </div>
+                                                <div class="slds-col slds-size_12-of-12">
+                                                    <span><template if:true={restService}>
+                                                            <lightning-input label={textAreaLabel} name="handlerName"
+                                                                onchange={onChangeHandler} required="true"
+                                                                access-key={index} value={dataItem.Handler_Name__c}>
+                                                            </lightning-input>
+                                                        </template></span>
+                                                </div>
+                                                <template if:true={apexClass}>
+                                                    <div class="slds-col slds-size_12-of-12">
+                                                        <c-lookup-apex-controller lookup-label="Apex Class Name"
+                                                            onchange={handleRecordSelection}
+                                                            selected-value={dataItem.Handler_Name__c}>
+                                                        </c-lookup-apex-controller>
+                                                    </div>
+                                                    <div class="slds-col slds-size_12-of-12">
+                                                        <span>
+                                                            <lightning-input name="input"
+                                                                placeholder="Add addition input if required"
+                                                                label="Input" variant="standard" type="text"
+                                                                onchange={onChangeHandler} value={dataItem.Inputs__c}
+                                                                access-key={index} class="padding">
+                                                            </lightning-input>
+                                                        </span>
+                                                    </div>
+                                                </template>
+                                                <template if:true={channelName}>
+                                                    <div class="slds-col slds-size_12-of-12">
+                                                        <c-look-up-channel-controller lookup-label="200 OK Channel Name"
+                                                            selected-value={dataItem.Handler_Name__c}
+                                                            onchange={handleRecordSelection}>
+                                                        </c-look-up-channel-controller>
+                                                    </div>
+                                                    <div class="slds-col slds-size_12-of-12">
+                                                        <span>
+                                                            <lightning-input name="input"
+                                                                placeholder="Add addition input if required"
+                                                                label="Input" variant="standard" type="text"
+                                                                onchange={onChangeHandler} value={dataItem.Inputs__c}
+                                                                access-key={index} class="padding">
+                                                            </lightning-input>
+                                                        </span>
+                                                    </div>
+                                                </template>
+
+                                                <div class="slds-col slds-size_12-of-12" style="padding-top: 2%;">
+                                                    <div style="float: right;">
+                                                        <lightning-button variant=" destructive-text" type="button"
+                                                            label="Delete" class="button-1" access-key={index}
+                                                            onclick={handleOpenConfirmation}>
+                                                        </lightning-button>
+                                                        <lightning-button type="button" variant="brand" label="Save"
+                                                            class="button-2 slds-button_stretch" access-key={index}
+                                                            onclick={handleSave}>
+                                                        </lightning-button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+
+                                        <!-- <p class="slds-p-horizontal_small"> -->
+
+                                    </lightning-card>
+                                    <template if:true={isModalOpen}>
+                                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                                            aria-modal="true" aria-describedby="modal-content-id-1"
+                                            class="slds-modal slds-fade-in-open">
+                                            <div class="slds-modal__container">
+
+                                                <header class="slds-modal__header">
+                                                    <button
+                                                        class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                                        onclick={closeModal}>
+                                                        <lightning-icon icon-name="utility:close"
+                                                            alternative-text="close" variant="inverse" size="small">
+                                                        </lightning-icon>
+                                                        <span class="slds-assistive-text">Close</span>
+                                                    </button>
+                                                    <h2 data-id="modal-heading-01"
+                                                        class="slds-text-heading_medium slds-hyphenate">Confirm Delete
+                                                    </h2>
+                                                </header>
+                                                <div class="slds-modal__content slds-p-around_medium"
+                                                    data-id="modal-content-id-1">
+                                                    <h1 style="text-align: center;">Are you sure you want to delete this
+                                                        data Source ?</h1>
+                                                </div>
+                                                <footer class="slds-modal__footer">
+                                                    <button class="slds-button slds-button_neutral"
+                                                        onclick={closeModal}>Cancel</button>
+                                                    <lightning-button variant=" destructive-text" type="button"
+                                                        style="margin-left:6px" label="Delete" access-key={index}
+                                                        onclick={handleDelete}>
+                                                    </lightning-button>
+                                                </footer>
+                                            </div>
+                                        </section>
+                                        <div class="slds-backdrop slds-backdrop_open"></div>
+                                    </template>
+                                </div>
+
+                            </template>
+
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <!-- start of the open multiselect combobox Conformation-->
+        <!-- <template if:true={isParentFieldSelectionOpen}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container modalWidth">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={handleParentFieldSelectionClose}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+
+                        <h2 class="slds-text-heading_medium slds-hyphenate">Select Fields</h2>
+
+                    </header>
+                    <div style="overflow: visible;" class="slds-modal__content slds-p-around_medium">
+                        <div class="slds-grid slds-wrap slds-is-relative">
+
+                            <div class="slds-col slds-p-top_medium slds-p-bottom_x-small childFieldWidth">
+
+                                <lightning-combobox name="objectFields" class="fld" label="Field Names"
+                                    value={selectedField} placeholder="Select Field Name" options={FDDfieldOptions}
+                                    onchange={handleFieldChange}></lightning-combobox>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={handleParentFieldSelectionClose}
+                            title="Cancel">Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick={handleParentFieldSelectionSelect}
+                            title="OK">OK</button>
+
+
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template> -->
+        <!--End of the multiselect combobox Conformation-->
+    </main>
+</template>

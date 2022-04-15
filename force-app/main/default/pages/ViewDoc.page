@@ -1,0 +1,53 @@
+<apex:page Controller="ViewPDFController" contentType="{!ContentType}"  action="{!loadPageContents}"  renderAs="{!DocType}"   applyBodyTag="false">
+   
+     <head> 
+            <style type="text/css"  media="print">
+              <apex:stylesheet value="{!URLFOR($Resource[DocumentCSS])}"/>  
+            </style>          
+    </head>   
+    
+    <body>   
+        <apex:outputPanel rendered="{!allPageHeader != '' && allPageHeader != Null}">
+            <div class="allPageHeader" style="text-align:{!CASE(headerAlignment, 'Left','left', 'Right','right','center')}">
+                <apex:outputText value="{!allPageHeader}" escape="false"/>
+            </div>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!firstPageHeader != '' && firstPageHeader != Null}">
+            <div class="firstPageHeader" style="text-align:{!CASE(headerAlignment, 'Left','left', 'Right','right','center')}">
+                <apex:outputText value="{!firstPageHeader}" escape="false"/>
+            </div>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!allPageFooter != '' && allPageFooter != Null}">
+            <div class="allPageFooter" style="text-align:{!CASE(footerAlignment, 'Left','left', 'Right','right','center')}">
+                <apex:outputText value="{!allPageFooter}" escape="false"/>
+            </div>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!firstPageFooter != '' && firstPageFooter != Null}">
+            <div class="firstPageFooter" style="text-align:{!CASE(footerAlignment, 'Left','left', 'Right','right','center')}">
+                <apex:outputText value="{!firstPageFooter}" escape="false"/>
+            </div>
+        </apex:outputPanel>
+
+        <apex:repeat value="{!corpDoc.CorpContents__r}" var="section">
+            <apex:outputPanel rendered="{!section.Content_Type__c == 'Body' || section.Content_Type__c == 'Related Records' || section.Content_Type__c == 'Custom Content'}" layout="none">
+                <apex:outputPanel rendered="{!section.Enable_Landscape_Layout__c == true}" layout="none">
+                    <div class="landscape-page">  
+                        <apex:outputText value="{!section.Section_Content__c}" escape="false"/>
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!section.Enable_Landscape_Layout__c == false}" layout="none">
+                    <apex:outputText value="{!section.Section_Content__c}" escape="false"/>
+                </apex:outputPanel>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!section.Content_Type__c == 'Page Break'}">
+                <div class="break-after">
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!section.Content_Type__c == 'Blank Page'}">
+                <div class="break-after">&nbsp;</div>
+                <div class="break-after"></div>
+            </apex:outputPanel>
+        </apex:repeat>
+    </body>
+    
+</apex:page>

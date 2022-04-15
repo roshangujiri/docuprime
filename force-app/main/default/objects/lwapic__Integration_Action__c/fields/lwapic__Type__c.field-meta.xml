@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>lwapic__Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>This is a type of response handler. Select Type along with Handler Name</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Choose the action type to handle the response data.</inlineHelpText>
+    <label>Action Type</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>SObject</fullName>
+                <default>true</default>
+                <label>SObject</label>
+            </value>
+            <value>
+                <fullName>Custom Class</fullName>
+                <default>false</default>
+                <label>Apex Class</label>
+            </value>
+            <value>
+                <fullName>File</fullName>
+                <default>false</default>
+                <label>File</label>
+            </value>
+            <value>
+                <fullName>Platform Events</fullName>
+                <default>false</default>
+                <label>Platform Events</label>
+            </value>
+            <value>
+                <fullName>Chaining</fullName>
+                <default>false</default>
+                <label>Integration Channel</label>
+            </value>
+            <value>
+                <fullName>Custom Settings</fullName>
+                <default>false</default>
+                <label>Custom Settings</label>
+            </value>
+            <value>
+                <fullName>Custom Metadata Types</fullName>
+                <default>false</default>
+                <label>Custom Metadata Types</label>
+            </value>
+            <value>
+                <fullName>External Object</fullName>
+                <default>false</default>
+                <label>External Object</label>
+            </value>
+            <value>
+                <fullName>Big Object</fullName>
+                <default>false</default>
+                <label>Big Object</label>
+            </value>
+            <value>
+                <fullName>Client Response</fullName>
+                <default>false</default>
+                <label>Client Response</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,129 @@
+<template>
+    <template if:true={isCreateDocumentOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container"> 
+                <template if:true={isLoadingPreview}>
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </template>
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleClose}> 
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon> 
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <template if:false={isPreview}>
+                        <h2 class="slds-text-heading_medium">Create New</h2>
+                    </template> 
+                    <template if:true={isPreview}>
+                        <h2 class="slds-text-heading_medium">Preview</h2>
+                    </template>    
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-p-bottom_large slds-p-left_large slds-scrollable_none">
+                        <div class="slds-grid slds-wrap slds-is-relative" style="min-height: 50vh;">
+                            <template if:true={isLoading}>
+                                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                            </template>
+                            <div  data-id="leftPreviewPanel" class="slds-col slds-size_3-of-4 slds-scrollable {horizentalClass}"> 
+                                <template for:each={contents} for:item="content">
+
+                                    <!--ABDS:s:Added for header-->         
+                                    <template if:false={content.isBodyContent}>
+                                        <div key={content.id} class="slds-p-around_x-small">
+                                            <lightning-formatted-rich-text 
+                                                value={content.content}>
+                                            </lightning-formatted-rich-text>
+                                        </div>
+                                    </template>
+                                    <!--ABDS:e:Added for header-->
+
+                                    <template if:true={content.isBodyContent}>
+                                        <div key={content.id} class="slds-p-around_x-small">
+                                            <lightning-formatted-rich-text 
+                                                value={content.content}>
+                                            </lightning-formatted-rich-text>
+                                        </div>
+                                    </template>
+
+
+                                    <template if:true={content.isPageBreak}>
+                                        <p 
+                                            class="slds-text-align_center slds-text-color_weak slds-box slds-box_xx-small slds-m-vertical_small" 
+                                            key={content.key}>
+                                                PAGE BREAK
+                                        </p>
+                                    </template>
+                                    <template if:true={content.isBlankPage}>
+                                        <p 
+                                            class="slds-text-align_center slds-text-color_success slds-box slds-box_xx-small slds-m-vertical_small" 
+                                            key={content.key}>
+                                                BLANK PAGE
+                                        </p>
+                                    </template>
+                                </template>
+                            </div>
+                            <!--ABDSs:s:e:Added if with template -->
+                            <template if:false={isPreview}>
+
+                                <div class="slds-col slds-size_1-of-4 fields-section">
+                                
+                                    <lightning-input 
+                                        class="slds-m-bottom_medium"
+                                        type="String" 
+                                        name="Corporate Document Name"  
+                                        label="Document Name" 
+                                        value={documentNameExtention} 
+                                        max-length="30" 
+                                        onchange={handleDocumentNameExtention}  
+                                        required  
+                                        style="min-width:80px">
+                                    </lightning-input>
+                                    <!--<lightning-combobox
+                                        name="status"
+                                        label="Status"
+                                        placeholder="Choose Status"
+                                        value={value}
+                                        options={statusOptions}
+                                    >
+                                    </lightning-combobox>-->
+                                    <template if:true={displayFieldSetCall}>Input Field</template>
+                                    <template for:each={mainContent} for:item="section">
+                                        <template if:true={section.fields}>
+                                            <div key={section.id} class="slds-p-around_x-small">
+                                                <template for:each={section.fields} for:item="fieldData">
+                                                    <template if:false={fieldData.value}>
+                                                        <div key={fieldData.id} class="slds-p-around_x-small">
+                                                            <c-data-type-cell 
+                                                                class="datatypecell"
+                                                                section-id={section.id} 
+                                                                cell-data={fieldData}
+                                                                data-type = {fieldData.type}
+                                                                data-format = {fieldData.dateFormat}  
+                                                                onfieldvaluechange={handleFieldValueChange}>
+                                                            </c-data-type-cell>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </div>
+                            </template>   
+                        </div>
+                    </div>
+                </div>
+                 
+                <footer class="slds-modal__footer">
+                    <!--ABDSs:s:e:Added if with template -->
+                   <template if:false={isPreview}>
+                       <button class="slds-button slds-button_brand" onclick={handleSave}>Save</button>
+                   </template>
+                   <button class="slds-button slds-button_brand" onclick={handleClose}>Close</button>
+               </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

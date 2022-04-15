@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>lwapic__Header_data__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <inlineHelpText>Please select the header data to send in the callout request</inlineHelpText>
+    <label>Header Data</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CallbackURL</fullName>
+                <default>false</default>
+                <label>CallbackURL</label>
+            </value>
+            <value>
+                <fullName>OrgId</fullName>
+                <default>false</default>
+                <label>OrgId</label>
+            </value>
+            <value>
+                <fullName>JobId</fullName>
+                <default>false</default>
+                <label>JobId</label>
+            </value>
+            <value>
+                <fullName>UserId</fullName>
+                <default>false</default>
+                <label>UserId</label>
+            </value>
+            <value>
+                <fullName>SettingsId</fullName>
+                <default>false</default>
+                <label>SettingsId</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

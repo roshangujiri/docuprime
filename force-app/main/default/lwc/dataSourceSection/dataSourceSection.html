@@ -1,0 +1,152 @@
+<template>
+    <!-- <div if:true={loadingSpinner} class="loader">
+            <div class="slds-spinner_container slds-is-fixed">
+                <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                    <span class="slds-assistive-text">Laoding</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </div> -->
+    <!-- <lightning-progress-bar value="50" size="large" variant="circular" class="error"></lightning-progress-bar> -->
+
+    <div class={divClass}>
+        <button class={isOpenSideBar} aria-controls="split-view-id" aria-expanded="false" onclick={HandleCloseSideBar}
+            style="margin-top: 0.2rem;height: -webkit-fill-available;">
+            <lightning-icon icon-name={iconName} alternative-text="" size="Xx-Small">
+            </lightning-icon>
+        </button>
+        <article aria-hidden={articleAreaHidden} id="split-view-id" style="overflow: auto; margin-top:4px"
+            class="slds-split-view slds-grid slds-grid_vertical slds-grow ">
+            <header class="slds-split-view__header">
+                <!-- start of the accordion -->
+                <lightning-layout pull-to-boundary="medium" multiple-rows="true">
+                    <lightning-layout-item small-device-size="">
+                        <lightning-accordion onsectiontoggle={handleToggleSection} allow-multiple-sections-open
+                            style="margin-top: -10px; font-weight:200;color:#747474">
+                            <lightning-accordion-section name="uploadTemplate" label="UPLOAD TEMPLATE">
+                                <div style=" line-height: 0px">
+                                    <div class="inline-block-child">
+                                        <!-- <div class="slds-form-element">
+                                                                                <div class="slds-form-element__control">
+                                                                                    <div class="slds-file-selector slds-file-selector_files">
+                                                                                        <div class="slds-file-selector__dropzone slds-has-drag-over">
+                                                                                            <input type="file" class="slds-file-selector__input slds-assistive-text"
+                                                                                                accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf, .odt"
+                                                                                                id="file-upload-input-111"
+                                                                                                aria-labelledby="file-selector-primary-label-109 file-selector-secondary-label110" />
+                                                                                            <label class="slds-file-selector__body" for="file-upload-input-111"
+                                                                                                id="file-selector-secondary-label110">
+                                                                                                <span
+                                                                                                    class="slds-file-selector__button slds-button slds-button_neutral">
+                                                                                                    <lightning-icon icon-name="utility:upload" variant="inverse"
+                                                                                                        size="small"></lightning-icon>Upload Template
+                                                                                                </span>
+                                                                                                <span class="slds-file-selector__text slds-medium-show">or Drop
+                                                                                                    Template</span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div> -->
+                                        <lightning-input type="file"
+                                            accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf, .odt"
+                                            onchange={openfileUpload}></lightning-input>
+                                    </div>
+                                    <div class="inline-block-child " style="margin-top: -6px;">
+                                        <lightning-button variant="brand" label="Upload" onclick={uploadTemplate}
+                                            class="slds-m-left_x-small upload">
+                                        </lightning-button>
+                                    </div>
+                                </div>
+                                <template if:true={fileData}>
+                                    <p>{fileData.filename}</p>
+                                </template>
+                                <!-- <lightning-input type="input" onchange={handleExternalTemplateId}
+                                                                        label="Enter your External Template Id">
+                                                                    </lightning-input> -->
+                            </lightning-accordion-section>
+                            <!-- <lightning-accordion-section name="externalId" label="EXTERNAL TEMPLATE ID">
+                                                                    <lightning-input type="input" onchange={handleExternalTemplateId}
+                                                                        label="Enter your External Template Id">
+                                                                    </lightning-input>
+                                                                </lightning-accordion-section> -->
+                        </lightning-accordion>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <!-- End of the accordion -->
+            </header>
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-split-view__list-header slds-grid" style="line-height: 26px;background: #E0E0E0;">
+                    <span style="font-size: larger;font-weight: 200;">DATA SOURCES </span>
+                </div>
+                <ul aria-multiselectable="true" class="slds-scrollable_y" role="listbox">
+                    <li role="presentation" class="dataSource" onclick={AddDataSource}
+                        style="height: 48px; cursor: pointer; border-bottom: 1.5px ridge;">
+                        <div class="addDs">
+                            <!-- <div class="inline-block-child"> -->
+                            <h3 class="addSection">Add New Data Sources
+                                <span class="slds-float_right" style="height: 3rem;">
+                                    <lightning-icon icon-name="utility:chevronright" alternative-text="Left!"
+                                        size="x-small">
+                                    </lightning-icon>
+                                </span>
+                            </h3>
+                        </div>
+                    </li>
+                    <template for:each={arrayList} for:item="dataSource" for:index="index">
+                        <div key={dataSource.index} class={dataSource.activeItem} draggable="true" ondrop={Drop}
+                            ondragstart={DragStart} ondragover={DragOver} accesskey={index}>
+                            <li class="slds-split-view__list-item list" role="presentation">
+                                <a href="#" aria-current={dataSource.activeItem} role="option"
+                                    data-item={dataSource.Order__c} accesskey={index} onclick={HandleGetIndex}
+                                    class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate">
+                                    <lightning-icon icon-name="utility:drag_and_drop" size="Small" class="dragIcon">
+                                    </lightning-icon>
+                                    <div class="inline-block-child" data-item={dataSource.Order__c}
+                                        onclick={HandleGetIndex} accesskey={index}>
+                                        <div class="slds-grid slds-wrap">
+                                            <span class="slds-truncate slds-text-body_regular slds-text-color_default"
+                                                style="font-size: 17px;font-weight: 400;"
+                                                accesskey={index}>{dataSource.Name}</span>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <span class="slds-truncate" accesskey={index}>{dataSource.Type__c}</span>
+                                        </div>
+                                    </div>
+                                    <div class="inline-block-child" style="float: right; margin-top: 8px;">
+                                        <span style="font-size: 19px;" accesskey={index}>{dataSource.Order__c}</span>
+                                        <template if:true={dataSource.hasError}>
+                                            <div class="iconDiv">
+                                                <lightning-icon icon-name="utility:error" size="x-small" variant="error"
+                                                    class="iconStatus">
+                                                </lightning-icon>
+                                            </div>
+                                        </template>
+                                        <template if:false={dataSource.hasError}>
+                                            <template if:true={dataSource.Saved}>
+                                                <div class="iconDiv">
+                                                    <lightning-icon icon-name="utility:success" alternative-text=""
+                                                        variant="success" class="iconStatus" size="x-small">
+                                                    </lightning-icon>
+                                                </div>
+                                            </template>
+                                            <template if:false={dataSource.Saved}>
+                                                <div class="iconDiv">
+                                                    <lightning-icon icon-name="utility:warning"
+                                                        alternative-text="warning!" variant="warning" class="iconStatus"
+                                                        size="x-small">
+                                                    </lightning-icon>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </a>
+                            </li>
+                        </div>
+                    </template>
+                </ul>
+            </div>
+        </article>
+    </div>
+</template>

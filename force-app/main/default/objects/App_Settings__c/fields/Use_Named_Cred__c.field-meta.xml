@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Use_Named_Cred__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Enabling this option means to retrieve the meta data information use Named Cred and Provide Name Cred Name</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Named Cred and Provide Name Cred Name</inlineHelpText>
+    <label>Use Named Cred</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

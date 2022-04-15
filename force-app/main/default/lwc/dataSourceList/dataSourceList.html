@@ -1,0 +1,45 @@
+<template>
+    <div class={divClass} style="width: 50vh;
+            height: 34.1vw;;
+            margin-left: -22%;
+            margin-top: 2.5px;">
+        <button class={isOpenSideBad} aria-controls="split-view-id" aria-expanded="false" title=""
+            onclick={HandleCloseSideBar}>
+            <lightning-icon icon-name="utility:left" alternative-text="" title="" size="Xx-small">
+            </lightning-icon>
+        </button>
+        <article aria-hidden={articleAreaHidden} id="split-view-id"
+            class="slds-split-view slds-grid slds-grid_vertical slds-grow">
+            <div class="slds-grid slds-grid_vertical heading">
+                <div class="slds-split-view__list-header slds-grid" style="line-height: 26px;background: #E0E0E0;;">
+                    <span style="font-size: larger;font-weight: 200;">CHOOSE DATA SOURCE TYPE </span>
+                </div>
+                <ul aria-multiselectable="true" class="slds-scrollable_y" role="listbox"
+                    aria-label="Select an item to open it in a new workspace tab.">
+                    <template for:each={dataSourceList} for:item="dataSource">
+                        <li class="slds-split-view__list-item" role="presentation" key={dataSource.index}>
+                            <a href="#" role="option" data-item={dataSource.type} data-name={dataSource.label}
+                                onclick={handleClickDataSource} style="line-height: 20px;"
+                                class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate">
+                                <div class="inline-block-child">
+                                    <div class="slds-grid slds-wrap">
+                                        <span
+                                            class="slds-truncate slds-text-body_regular slds-text-color_default list">{dataSource.label}</span>
+                                    </div>
+                                </div>
+                                <div class="inline-block-child" style="float: right;">
+                                    <span>
+                                        <lightning-icon icon-name="utility:add" size="x-small"
+                                            data-item={dataSource.type} data-name={dataSource.label}
+                                            onclick={handleClickDataSource} class="my-icon">
+                                        </lightning-icon>
+                                    </span>
+                                </div>
+                            </a>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </article>
+    </div>
+</template>

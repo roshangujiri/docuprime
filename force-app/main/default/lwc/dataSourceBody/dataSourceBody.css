@@ -1,0 +1,120 @@
+.no-data-source {
+  background-color: #fff;
+  height: 34vw;
+  /* overflow: hidden; */
+  line-height: 12px;
+  margin-left: -29px;         
+}
+.container{
+background-color: #fff;
+ margin-left: -8%;
+ margin-top: 4px;
+ margin-right: -1.3%;
+ height: 33.8vw;
+}
+.container-2{
+    background-color: #fff;
+    margin-left: -8.5%;
+    margin-top: 4px;
+    margin-right: -1.3%;
+  height: 33.8vw;
+}
+.center {
+  padding: 20%;
+  text-align: center;
+}
+.heading {
+  font-size: 1.125rem;
+  font-weight: 300;
+  line-height: 1.25;
+}
+.subHeading {
+  color: #706e6b;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.card-1 {
+      font-size: 16px;
+    --sds-c-card-text-color: #747474;
+    --sds-c-card-heading-font-weight: 700}
+.button-1 {
+ --slds-c-button-text-destructive-spacing-inline-start:50px;
+   --slds-c-button-text-destructive-spacing-inline-end:50px;
+    --sds-c-button-shadow: var(--lwc-shadowDrag);
+    --sds-c-button-shadow-focus: var(--lwc-shadowDrag)}
+.button-2 {
+     margin-left: 12px;
+   --slds-c-button-brand-spacing-inline-start:50px;
+   --slds-c-button-brand-spacing-inline-end:50px;
+    --sds-c-button-shadow: var(--lwc-shadowDrag);
+    --sds-c-button-shadow-focus: var(--lwc-shadowDrag)}
+.heading{
+    margin-left: 13px;
+    font-size: x-large;
+  }
+    /* :host {
+    --sds-c-textarea-sizing-min-height: 150px;
+} */
+
+/* .btn{
+   width: 10rem;
+    height: 38px;
+} */
+footer{
+  border: none;
+}
+
+
+
+.app {
+    background-color: #ffffff;
+    height: 130%;
+    width: 100%;
+}
+.fields-section {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.content-section {
+    border-right: 1px solid grey;
+    padding-right: 30px;
+}
+.section-row {
+    border: 1px solid #dddbda;
+}
+.expand-preview {
+    width: 684px;
+}
+.collapse-preview {
+    width: 100px;
+}
+.expand-template {
+    width: 1390px;
+}
+.collapse-template {    
+    width: 807px;
+}
+.richtext {
+    --sds-c-textarea-sizing-min-height: 9rem;
+}
+.modalWidth{
+    width: 30%;
+}
+.childFieldWidth{
+    width: 100%;
+}
+.addFieldIconPadding{
+    padding-top: 19px;
+}
+.relatedListIconPadding{
+    padding-top: 23px;
+}
+.slds-listbox_vertical{
+    max-height: 147Px;
+}
+.icon-info{
+    background-color: white;
+}
+.icon{
+background-color: beige;
+}

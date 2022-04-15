@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Use_User_Session__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Enabling this option means get the session information from User Session</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Get User Session</inlineHelpText>
+    <label>Use User Session</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

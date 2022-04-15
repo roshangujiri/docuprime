@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Allow_Attach_As_PDF__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This is to allow configuration for attaching the documents generated from template to the records as attachment.</description>
+    <externalId>false</externalId>
+    <label>Allow Attach As PDF To Record</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

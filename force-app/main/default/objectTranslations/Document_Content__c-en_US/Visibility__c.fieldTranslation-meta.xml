@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label></label>
+    <name>Visibility__c</name>
+    <picklistValues>
+        <masterLabel>All The Pages</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>First Page Only</masterLabel>
+        <translation></translation>
+    </picklistValues>
+</CustomFieldTranslation>

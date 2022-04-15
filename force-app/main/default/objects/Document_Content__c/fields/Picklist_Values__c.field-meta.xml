@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Picklist_Values__c</fullName>
+    <description>Holds the line separated picklist values if Picklist is selected as Field Type.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Enter line separated values if Picklist is selected as Field Type.</inlineHelpText>
+    <label>Picklist Values</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>
