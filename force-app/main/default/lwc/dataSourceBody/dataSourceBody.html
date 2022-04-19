@@ -8,9 +8,10 @@
             </div>
         </div>
     </div>
-    <main class={containerClass} data-id="container">
-        <div class="demo-only demo-only--sizing slds-grid slds-wrap">
-            <div class="slds-size_2-of-2">
+
+    <div class="demo-only demo-only--sizing slds-grid slds-wrap">
+        <div class="slds-size_2-of-2">
+            <main class={containerClass} data-id="container">
                 <div>
                     <template if:false={isDataSource}>
                         <div class=" slds-align_absolute-center" style="height: 69vh;">
@@ -20,7 +21,6 @@
                                 <h3 class="subHeading ">Click "Add New Data Sources" to Start Your
                                     Template</h3>
                             </section>
-
                         </div>
                     </template>
                     <template if:true={isDataSource}>
@@ -45,16 +45,16 @@
                                                 <div class="slds-size_1-of-1">
                                                     <div class="slds-grid slds-grid_reverse">
                                                         <!-- <div class="relatedListIconPadding">
-                                                            <button class="slds-button slds-button_icon"
-                                                                title="Parent Field" data-id="section.key"
-                                                                data-type="RelatedRecord"
-                                                                onclick={handleParentFieldSelectionOpen}>
-                                                                <lightning-icon icon-name="utility:jump_to_right"
-                                                                    alternative-text="Parent Field" size="medium">
-                                                                </lightning-icon>
-                                                                <span class="slds-assistive-text">Parent Field</span>
-                                                            </button>
-                                                        </div> -->
+                                                                                    <button class="slds-button slds-button_icon"
+                                                                                        title="Parent Field" data-id="section.key"
+                                                                                        data-type="RelatedRecord"
+                                                                                        onclick={handleParentFieldSelectionOpen}>
+                                                                                        <lightning-icon icon-name="utility:jump_to_right"
+                                                                                            alternative-text="Parent Field" size="medium">
+                                                                                        </lightning-icon>
+                                                                                        <span class="slds-assistive-text">Parent Field</span>
+                                                                                    </button>
+                                                                                </div> -->
                                                         <div class="slds-col">
                                                             <c-multiselect-combobox label="Multi Select Fields"
                                                                 object-name={objectName}
@@ -124,7 +124,7 @@
                                                     <div class="slds-col slds-size_12-of-12">
                                                         <span>
                                                             <lightning-input name="input"
-                                                                placeholder="Add addition input if required"
+                                                                placeholder="Add additional input if required"
                                                                 label="Input" variant="standard" type="text"
                                                                 onchange={onChangeHandler} value={dataItem.Inputs__c}
                                                                 access-key={index} class="padding">
@@ -142,7 +142,7 @@
                                                     <div class="slds-col slds-size_12-of-12">
                                                         <span>
                                                             <lightning-input name="input"
-                                                                placeholder="Add addition input if required"
+                                                                placeholder="Add additional input if required"
                                                                 label="Input" variant="standard" type="text"
                                                                 onchange={onChangeHandler} value={dataItem.Inputs__c}
                                                                 access-key={index} class="padding">
@@ -165,9 +165,6 @@
                                                 </div>
                                             </div>
                                         </template>
-
-                                        <!-- <p class="slds-p-horizontal_small"> -->
-
                                     </lightning-card>
                                     <template if:true={isModalOpen}>
                                         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
@@ -185,7 +182,8 @@
                                                         <span class="slds-assistive-text">Close</span>
                                                     </button>
                                                     <h2 data-id="modal-heading-01"
-                                                        class="slds-text-heading_medium slds-hyphenate">Confirm Delete
+                                                        class="slds-text-heading_medium slds-hyphenate">
+                                                        Confirm Delete
                                                     </h2>
                                                 </header>
                                                 <div class="slds-modal__content slds-p-around_medium"
@@ -206,16 +204,16 @@
                                         <div class="slds-backdrop slds-backdrop_open"></div>
                                     </template>
                                 </div>
-
                             </template>
-
                         </template>
                     </template>
                 </div>
-            </div>
+            </main>
+
         </div>
-        <!-- start of the open multiselect combobox Conformation-->
-        <!-- <template if:true={isParentFieldSelectionOpen}>
+    </div>
+    <!-- start of the open multiselect combobox Conformation-->
+    <!-- <template if:true={isParentFieldSelectionOpen}>
             <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
                 aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
                 <div class="slds-modal__container modalWidth">
@@ -253,6 +251,6 @@
             </section>
             <div class="slds-backdrop slds-backdrop_open"></div>
         </template> -->
-        <!--End of the multiselect combobox Conformation-->
-    </main>
+    <!--End of the multiselect combobox Conformation-->
+    <!-- </main> -->
 </template>

@@ -6,13 +6,15 @@
 import { LightningElement, api, track } from 'lwc';
 import getDataFromDataResource from '@salesforce/apex/RequestPayloadGenerator.process';
 
-import ICGateway from "@salesforce/apex/ICGateway.executeMethod";
-import { requestWrapperForRender, showCustomToast, showError, carboneRenderUrl } from 'c/utils';
+// import ICGateway from "@salesforce/apex/ICGateway.executeMethod";
+import { showCustomToast, showError } from 'c/utils';
 import saveDataSource from '@salesforce/apex/DataSourceController.SaveDataSource';
 export default class DataSourceHeader extends LightningElement {
     @api documentTemplateId; @api updatedList; @api externalTemplateId; @api jsonData;
-    @track obj;
-    @track additionalInfo = {
+    @track additionalData = {
+        "convertTo": "pdf"
+    };
+    content = JSON.stringify({
         "convertTo": {
             "formatName": "pdf",
             "formatOptions": {
@@ -21,22 +23,16 @@ export default class DataSourceHeader extends LightningElement {
                 "Watermark": ""
             }
         }
-    };
+    }, null, 4);
 
-    // connectedCallback() {
-    //     this.obj = {
-    //         "convertTo": {
-    //             "formatName": "pdf",
-    //             "formatOptions": {
-    //                 "EncryptFile": "true",
-    //                 "DocumentOpenPassword": "",
-    //                 "Watermark": ""
-    //             }
-    //         }
-    //     };
-    //     this.additionalInfo = JSON.stringify(this.obj, null, 4);
-    // }
-
+    jsonDatachange;
+    connectedCallback() {
+        console.log('--=-- inside the connected call back data source header')
+        this.dispatchEvent(new CustomEvent('additionaldata', {
+            detail: { additionalJsonData: this.additionalData },
+            bubbles: true
+        }));
+    }
     showSpinner = false;
     isModalOpen = false;
     handlePreview(event) {
@@ -110,39 +106,6 @@ export default class DataSourceHeader extends LightningElement {
             detail: { hasRender: true },
             bubbles: true
         })) //dispatching the updated data source arrray to the parent data source component
-
-        // this.showSpinner = true
-        // console.log("inside the data source header render report line no 75");
-        // console.log("--=-- external template id is --=--" + JSON.stringify(this.externalTemplateId));
-        // console.log('--=-- updated json data is --=--' + JSON.stringify(this.jsonData));
-        // //  let requestWrapper = requestWrapperForRender(this.externalTemplateId, JSON.parse(JSON.stringify(this.jsonData)));
-        // let requestWrapperForRender = {
-        //     request: {
-        //         serviceName: `carbone_render`,
-        //         queryParams: `${this.externalTemplateId}`,
-        //         requestPayload: JSON.parse(JSON.stringify(this.jsonData))
-        //     }
-        // }
-        // ICGateway({ requestStr: JSON.stringify(requestWrapperForRender) })
-        //     .then((res) => {
-        //         console.log("inside the icGateway response");
-        //         console.log('response is ' + JSON.stringify(JSON.stringify(res)));
-        //         if (res.response[0].responseBody) {
-        //             let renderId = JSON.parse(res.response[0].responseBody).data.renderId;
-        //             let renderReportUrl = carboneRenderUrl + '/' + renderId;
-        //             this.showSecondSection = false;
-        //             this.dispatchEvent(new CustomEvent('renderreport', {
-        //                 detail: { renderReportUrl: JSON.parse(JSON.stringify(renderReportUrl)) },
-        //                 bubbles: true
-        //             })) //dispatching the updated data source arrray to the parent data source component
-        //             this.showSpinner = false
-        //         }
-        //     })
-        //     .catch(err => {
-        //         showError(this, err.responseBody.message);
-        //     })
-
-
     }
     editSettingJson() {
         this.isModalOpen = true
@@ -150,11 +113,22 @@ export default class DataSourceHeader extends LightningElement {
     closeModal() {
         this.isModalOpen = false
     }
-    handleChangeJson(event) {
-        this.additionalInfo = event.target.value
+    getHandleChangeJsonData(event) {
+        this.jsonDatachange = event.detail.json;
     }
     handleSaveJson() {
-        console.log('--=-- json info --=--' + JSON.parse(JSON.stringify(this.additionalInfo)));
+        this.additionalData.convertTo = this.jsonDatachange.convertTo
+
+        console.log('--=-- handle save edit json --=--' + JSON.stringify(this.additionalData));
+        this.dispatchEvent(new CustomEvent('formatoptions', {
+            detail: { additionalJsonData: this.additionalData },
+            bubbles: true
+        }));
+        // this.dispatchEvent(new CustomEvent('formatoptions', {
+        //     detail: { additionalJsonData: this.additionalData },
+        //     bubbles: true
+        // }));
+        // console.log('--=-- final additoinal data will be --=--' + JSON.stringify(this.additionalData));
         this.isModalOpen = false;
     }
 }

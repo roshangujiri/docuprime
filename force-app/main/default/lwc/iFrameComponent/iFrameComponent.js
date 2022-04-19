@@ -66,13 +66,13 @@ export default class IFrameComponent extends LightningElement {
                         this.showSpinner = false;
                     })
                     .catch(err => {
-                        this.loadingSpinner = fale;
+                        this.loadingSpinner = false;
                         showError(this, err.body.message);
                     })
             })
             .catch(err => {
-                this.loadingSpinner = fale;
-                showError(this, err.body.message);
+                this.loadingSpinner = false;
+                showError(this, err);
 
             })
     }

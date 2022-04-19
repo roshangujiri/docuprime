@@ -91,15 +91,15 @@
                         <span class="slds-assistive-text">Close</span>
                     </button>
                     <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Additional Information.
+
+                        <lightning-helptext content={content} class="slds-float_right">
+                        </lightning-helptext>
+
                     </h2>
                 </header>
                 <!-- Modal/Popup Box LWC body starts here -->
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <!-- <lightning-textarea name="textarea" label="Add Aditional Info." value={additionalInfo}
-                        onchange={handleChangeJson}>
-
-                    </lightning-textarea> -->
-                    <c-rich-text-editor json-editor-data={additionalInfo}>
+                    <c-rich-text-editor json-editor-data={additionalData} ongetdata={getHandleChangeJsonData}>
                     </c-rich-text-editor>
                 </div>
                 <!-- Modal/Popup Box LWC footer starts here -->

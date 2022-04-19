@@ -22,6 +22,9 @@ export default class DataSourceSection extends LightningElement {
     // Drag and drop  Star
     @track dragStart;
     @api isInstallLwapic;
+    renderedCallback() {
+        console.log(JSON.stringify(this.arrayList));
+    }
     DragStart(event) {
         this.dragStart = event.target.accessKey;
         console.log('event.target.title' + JSON.stringify(event.target.accessKey));
@@ -156,12 +159,12 @@ export default class DataSourceSection extends LightningElement {
                         }))
                     })
                     .catch(err => {
-                        this.loadingSpinner = fale;
+                        this.loadingSpinner = false;
                         showError(this, err.body.message);
                     })
             })
             .catch(err => {
-                this.loadingSpinner = fale;
+                this.loadingSpinner = false;
                 showError(this, err.body.message);
 
             })

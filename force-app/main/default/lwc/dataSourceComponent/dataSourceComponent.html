@@ -11,11 +11,11 @@
     </div>
     <div class="slds-card" style="background-color: lightsteelblue; min-height:100%">
         <div class="slds-card__body slds-card__body_inner">
-
             <template if:true={hasRender}>
                 <c-data-source-header onpreview={PreviewDocument} document-template-id={documentTemplateId}
                     updated-list={arrayList} external-template-id={externalTemplateId} json-data={data}
-                    onsavealldatasources={SaveAllDataSoources} onrenderreport={renderReportFile}>
+                    onsavealldatasources={SaveAllDataSoources} onrenderreport={renderReportFile}
+                    onadditionaldata={HandleAdditionalJsonData} onformatoptions={handleFormatOptionsForJson}>
                 </c-data-source-header>
                 <lightning-layout pull-to-boundary="medium" vertical-align="stretch" multiple-rows="true"
                     onactionclick={handleSectionActionClick}>
@@ -29,7 +29,7 @@
                     <template if:true={showSecondSection}>
                         <lightning-layout-item padding="horizontal-medium" size={dsSourceListSize}>
                             <c-data-source-list onselecteddatasource={handleSelectedSource} object-name={objectName}
-                                onselectclose={handleCloseSourceTypeSection}>
+                                onselectclose={handleCloseSourceTypeSection} is-install-lwapic={isInstallLwapic}>
                             </c-data-source-list>
                         </lightning-layout-item>
                     </template>
@@ -43,28 +43,27 @@
                                 </c-data-source-body>
                             </lightning-layout-item>
                         </template>
-                    </template>
-                    <template if:true={isPreview}>
-                        <lightning-layout-item padding="horizontal-medium" size={dsJsonEditorSize}>
-                            <div class={jsonEditorLayoutClass}>
-                                <c-rich-text-editor json-editor-data={jsonEditorData}
-                                    container-class={jsonEditiorContainer} onupdatedjson={getUpdatedJsonForRender}>
-                                </c-rich-text-editor>
-                            </div>
-                        </lightning-layout-item>
-                        <template if:true={renderTemplate}>
-                            <lightning-layout-item padding="horizontal-medium" size={dsIframeSize}>
-                                <div class={iframeLayoutClass}>
-                                    <c-i-frame-component external-template-id={externalTemplateId} json-data={data}
-                                        is-install-lwapic={isInstallLwapic}>
-                                    </c-i-frame-component>
+                        <template if:true={isPreview}>
+                            <lightning-layout-item padding="horizontal-medium" size={dsJsonEditorSize}>
+                                <div class={jsonEditorLayoutClass}>
+                                    <c-rich-text-editor json-editor-data={jsonEditorData}
+                                        container-class={jsonEditiorContainer} onupdatedjson={getUpdatedJsonForRender}>
+                                    </c-rich-text-editor>
                                 </div>
                             </lightning-layout-item>
+                            <template if:true={renderTemplate}>
+                                <lightning-layout-item padding="horizontal-medium" size={dsIframeSize}>
+                                    <div class={iframeLayoutClass}>
+                                        <c-i-frame-component external-template-id={externalTemplateId} json-data={data}
+                                            is-install-lwapic={isInstallLwapic}>
+                                        </c-i-frame-component>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
                         </template>
                     </template>
                 </lightning-layout>
             </template>
         </div>
     </div>
-
 </template>

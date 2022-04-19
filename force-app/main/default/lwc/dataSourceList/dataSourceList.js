@@ -2,16 +2,16 @@ import { LightningElement, track, api } from 'lwc';
 
 export default class DataSourceList extends LightningElement {
     @api objectName;
-    @track dataSourceList
+    @api isInstallLwapic;
+    @track dataSourceList = []
+
     connectedCallback() {
-        console.log('--=-- inside the connected call back ')
         let objectName = JSON.parse(JSON.stringify(this.objectName));
         this.dataSourceList = [
             {
                 index: 1,
                 label: objectName,
                 type: 'object'
-
             },
             {
                 index: 2,
@@ -27,13 +27,17 @@ export default class DataSourceList extends LightningElement {
                 index: 4,
                 label: 'Apex Class',
                 type: 'className'
-            },
-            {
-                index: 5,
-                label: '200 OK Channel',
-                type: 'channelName'
             }
         ];
+        if (this.isInstallLwapic == true) {
+            console.log('--=--- inside the is install lwapic --=--')
+            this.dataSourceList.push({
+                index: 5,
+                label: '200 OK',
+                type: 'channelName'
+            })
+        }
+
     }
 
     isSourceTypeOpen = true;
